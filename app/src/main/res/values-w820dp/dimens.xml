@@ -1,0 +1,14 @@
+<resources>
+    <dimen name="text_20">25sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+
+    <dimen name="medida_64">64dp</dimen>
+    <dimen name="medida_36">36dp</dimen>
+    <dimen name="medida_16">16dp</dimen>
+    <dimen name="medida_12">12dp</dimen>
+    <dimen name="medida_10">10dp</dimen>
+    <dimen name="medida_4">4dp</dimen>
+    <dimen name="medida_2">2dp</dimen>
+    <dimen name="medida_1">1dp</dimen>
+</resources>

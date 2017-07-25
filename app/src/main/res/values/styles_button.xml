@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Botao de Radio -->
+    <style name="radio_button" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <!-- Margem -->
+        <item name="android:layout_marginTop">@dimen/medida_4</item>
+        <item name="android:layout_marginBottom">@dimen/medida_4</item>
+        <!-- Padding -->
+        <item name="android:paddingTop">@dimen/medida_12</item>
+        <item name="android:paddingBottom">@dimen/medida_12</item>
+    </style>
+
+    <!-- Botao Normal - Base -->
+    <style name="button" parent="Widget.AppCompat.Button.Colored">
+        <!-- Margem -->
+        <item name="android:layout_marginTop">@dimen/medida_4</item>
+        <item name="android:layout_marginBottom">@dimen/medida_4</item>
+        <!-- Padding -->
+        <item name="android:paddingTop">@dimen/medida_12</item>
+        <item name="android:paddingBottom">@dimen/medida_12</item>
+        <!-- Texto -->
+        <item name="android:textSize">@dimen/text_20</item>
+        <!-- Largura -->
+        <item name="android:layout_width">match_parent</item>
+        <!-- Altura -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/medida_64</item>
+    </style>
+
+</resources>
