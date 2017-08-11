@@ -1,13 +1,18 @@
 package br.com.alisource.alisource.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -15,22 +20,24 @@ import android.widget.TextView;
 import br.com.alisource.alisource.R;
 import br.com.alisource.alisource.mask.Mask;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 /**
- * Classe utilitaria para activities
+ * Created by Gaboso
+ * on 01/11/2016
+ * <p>
+ * ActivityUtil
+ * </p>
  */
 public class BaseActivity extends AppCompatActivity {
 
     /**
      * Metodo para trocar de activities
      *
-     * @param context           - Contexto da tela atual
+     * @param view              - View atual
      * @param destionationClass - Classe da proxima tela
      */
-    protected void goToActivity(Context context, Class destionationClass) {
-        Intent intent = new Intent(context, destionationClass);
+    protected void changeActivity(View view, Class destionationClass) {
+        Intent intent = new Intent(view.getContext(), destionationClass);
         startActivity(intent);
         enterActivityTransition();
     }
@@ -41,6 +48,17 @@ public class BaseActivity extends AppCompatActivity {
         exitActivityTransition();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * Metodo para pegar o texto de um campo, passando o id dele
      *
@@ -48,26 +66,40 @@ public class BaseActivity extends AppCompatActivity {
      * @return texto que tinha dentro do campo selecionado
      */
     protected String getTextFromField(int fieldID) {
-        // Campo de texto
         EditText editText = (EditText) findViewById(fieldID);
 
-        //se o campo for null retorna null
-        if (editText == null)
+        if (editText == null) {
             return null;
+        }
 
-        // chamando metodo para converter para string e retornando
         return editText.getText().toString().trim();
     }
 
     /**
-     * Metodo para pgar a selecao ou nao selecao de um botao
+     * Metodo para pegar um valor double pelo id do campo
+     *
+     * @param fieldID - id do campo
+     * @return O valor do campo convertido para double
+     */
+    protected Double getDoubleFromField(int fieldID) {
+        String text = getTextFromField(fieldID);
+
+        if (text != null) {
+            return Double.parseDouble(text);
+        }
+
+        return null;
+    }
+
+    /**
+     * Metodo para pegar a selecao ou nao selecao de um botao
      *
      * @param fieldID - Id do botao radio
-     * @return true se o botão estava selecionado e false caso contrario
+     * @return true se o botao estava selecionado e false caso contrario
      */
-    protected boolean getValueFromRadioButton(int fieldID) {
+    protected boolean getBooleanFromRadio(int fieldID) {
         RadioButton radioButton = (RadioButton) findViewById(fieldID);
-        //retorna true se o botao de radio for valido e estiver checado
+
         return radioButton != null && radioButton.isChecked();
     }
 
@@ -80,8 +112,31 @@ public class BaseActivity extends AppCompatActivity {
     protected void insertMaskInField(int fieldID, int maskID) {
         EditText field = (EditText) findViewById(fieldID);
 
-        if (field != null)
+        if (field != null) {
             field.addTextChangedListener(Mask.insert(getString(maskID), field));
+        }
+    }
+
+    /**
+     * Metodo para exibir dialogo de confirmacao para sair do app
+     */
+    protected void showBackMessage() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.exit_title);
+        builder.setMessage(R.string.exit_question_statement);
+        builder.setPositiveButton(R.string.exit_confirm, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                finish();
+            }
+        });
+        builder.setNegativeButton(R.string.exit_cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     /**
@@ -91,38 +146,76 @@ public class BaseActivity extends AppCompatActivity {
      * @param errorMessageID - Id da mensagem de erro a ser exibida no campo
      */
     private void showErrorMessage(int fieldID, int errorMessageID) {
-        //Pega o campo
-        EditText field = (EditText) findViewById(fieldID);
+        TextInputLayout field = (TextInputLayout) findViewById(fieldID);
 
         if (field != null) {
-            //Seta mensagem de erro nele
+            field.setErrorEnabled(true);
             field.setError(getString(errorMessageID));
-            field.requestFocus();
         }
     }
 
     /**
-     * Metodo que seta texto no campo e retorna texto que salvou
+     * Metodo para verificar se o campo não é nulo nem vazio
+     *
+     * @param idField  - id do campo a ser validado
+     * @param idLayout - id do layout a ser evidenciado em caso de erro
+     * @return true se não for vazio e nem nulo, false se for nulo ou vazio
+     */
+    protected boolean validateEditText(int idField, int idLayout) {
+        String text = getTextFromField(idField);
+
+        if (text == null || text.isEmpty()) {
+            showErrorMessage(idLayout, R.string.validation_required);
+            return false;
+        }
+
+        clearErrorField(idLayout);
+        return true;
+    }
+
+    private void clearErrorField(int fieldID) {
+        TextInputLayout field = (TextInputLayout) findViewById(fieldID);
+        field.setErrorEnabled(false);
+    }
+
+    private int getInputType(int fieldID) {
+        EditText editText = (EditText) findViewById(fieldID);
+        return editText.getInputType();
+    }
+
+    /**
+     * Metodo que seta texto no campo
      *
      * @param fieldID - Id do campo a ser setado
      * @param content - Conteudo textual a ser setado no campo
      */
     protected void setText(int fieldID, String content) {
-        //pega o campo
         TextView textView = (TextView) findViewById(fieldID);
-        //seta o conteudo
-        if (textView != null)
+
+        if (textView != null) {
             textView.setText(content);
+        }
     }
 
     /**
-     * Metodo que seta texto no campo e retorna texto que salvou
+     * Metodo que seta texto no campo
      *
      * @param fieldID   - Id do campo a ser setado
      * @param contentID - Id do conteudo textual a ser setado no campo
      */
     protected void setText(int fieldID, int contentID) {
         setText(fieldID, getString(contentID));
+    }
+
+    /**
+     * Metodo para inserir um texto formatado em uma TextView
+     *
+     * @param fieldID - id da TextView na qual o texto sera inserido
+     * @param text    - texto que sera inserido de maneira formatada na TextView
+     */
+    protected void setTextHTMLFormatInTextView(int fieldID, String text) {
+        String bodyContent = "<body>" + text + "</body>";
+        setHTMLContentInTextView(fieldID, bodyContent);
     }
 
     /**
@@ -140,59 +233,85 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para retirar o botao de voltar ao pai da tela, das action bar
+     * Metodo para marcar um RadioButton
+     *
+     * @param radioID - id do RabioButton a ser marcado
      */
-    protected void removeButtonFromActionBar() {
-        //Pegando a barra de acoes
-        ActionBar actionBar = getSupportActionBar();
-        //Tirando o botão de voltar para a tela anterior
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(false);
+    protected void checkRadio(int radioID) {
+        RadioButton radioButton = (RadioButton) findViewById(radioID);
+
+        if (radioButton != null) {
+            radioButton.setChecked(true);
+        }
     }
 
     /**
-     * Metodo para inserir os listeners de animacao dos campos e botoes de informacao correlacionados
+     * Metodo para checar se o celeular possui conectividade com a rede
      *
-     * @param field      - Campo que deve receber o focus
-     * @param infoButton - Botao de informacao que e relacionado ao campo que recebe o foco
+     * @return retorna true para conectividade e false para a falta dela
      */
-    protected void setFocusListenerAnimate(final View field, final View infoButton) {
-        field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    infoButton.setVisibility(VISIBLE);
-                    field.animate()
-                            .translationX(0.0F)
-                            .setDuration(500);
-                    infoButton.animate()
-                            .translationX(0.0F)
-                            .setDuration(500)
-                            .setListener(null);
-                } else {
-                    infoButton.animate()
-                            .translationX(infoButton.getWidth())
-                            .alpha(infoButton.getWidth())
-                            .setDuration(500)
-                            .setListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                    infoButton.setVisibility(GONE);
-                                    infoButton.animate().setListener(null);
-                                }
+    protected boolean networkConnectivity() {
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
 
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                    super.onAnimationStart(animation);
-                                    field.animate().translationX(0.0F);
-                                }
-                            });
-                }
-            }
-        });
+    /**
+     * Metodo para remover o foco de varios campos
+     *
+     * @param fieldIDs - array com ids dos campos a terem o foco removido
+     */
+    protected void clearFocus(int[] fieldIDs) {
+        for (int fieldID : fieldIDs) {
+            clearFocus(fieldID);
+        }
+    }
 
-        infoButton.setVisibility(GONE);
+    /**
+     * Metodo para remover o foco de um campo
+     *
+     * @param fieldID - id do campo a ter o foco removido
+     */
+    protected void clearFocus(int fieldID) {
+        EditText editText = (EditText) findViewById(fieldID);
+
+        if (editText != null) {
+            editText.clearFocus();
+        }
+    }
+
+    /**
+     * Metodo para esconder o teclado
+     */
+    protected void hideKeyboard() {
+        View view = getCurrentFocus();
+
+        if (view != null) {
+            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).
+                    hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * Metodo para setar conteudo formatado com tags HTML
+     *
+     * @param fieldID     - id do campo a receber o texto formatado
+     * @param bodyContent - body do html com as formatacoes necessarias
+     */
+    private void setHTMLContentInTextView(int fieldID, String bodyContent) {
+        String htmlFormatted = "<html><head>" +
+                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>" +
+                bodyContent + "</html>";
+
+        TextView textView = (TextView) findViewById(fieldID);
+
+        if (textView != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
+                textView.setText(Html.fromHtml(htmlFormatted, Html.FROM_HTML_MODE_LEGACY));
+            else
+                textView.setText(Html.fromHtml(htmlFormatted));
+        }
     }
 
     /**
