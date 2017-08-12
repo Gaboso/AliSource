@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="exit_title">Sair?</string>
-    <string name="exit_question_statement">Deseja realmente sair?</string>
-    <string name="exit_confirm">Sim</string>
-    <string name="exit_cancel">Não</string>
-</resources>

@@ -1,4 +1,4 @@
-package br.com.alisource.alisource.activity;
+package br.com.alisource.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,10 +15,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import br.com.alisource.alisource.R;
-import br.com.alisource.alisource.mask.Mask;
+import br.com.alisource.R;
+import br.com.alisource.mask.Mask;
 
 
 /**
@@ -31,16 +32,27 @@ import br.com.alisource.alisource.mask.Mask;
 public class BaseActivity extends AppCompatActivity {
 
     /**
-     * Metodo para trocar de activities
+     * Metodo para abrir uma activity utilizando intent default
      *
      * @param view              - View atual
      * @param destionationClass - Classe da proxima tela
      */
-    protected void changeActivity(View view, Class destionationClass) {
+    protected void openActivity(View view, Class destionationClass) {
         Intent intent = new Intent(view.getContext(), destionationClass);
         startActivity(intent);
         enterActivityTransition();
     }
+
+    /**
+     * Metodo para abrir uma activity utilizando intent personalizado
+     *
+     * @param intent - Intent personalizada
+     */
+    protected void openActivity(Intent intent) {
+        startActivity(intent);
+        enterActivityTransition();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -76,6 +88,22 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * Metodo para pegar um valor integer pelo id do campo
+     *
+     * @param fieldID - id do campo
+     * @return O valor do campo convertido para integer
+     */
+    protected Long getLongFromField(int fieldID) {
+        String text = getTextFromField(fieldID);
+
+        if (text != null) {
+            return Long.parseLong(text);
+        }
+
+        return null;
+    }
+
+    /**
      * Metodo para pegar um valor double pelo id do campo
      *
      * @param fieldID - id do campo
@@ -92,6 +120,23 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * Metodo para pegar um valor integer pelo id do campo
+     *
+     * @param fieldID - id do campo
+     * @return O valor do campo convertido para integer
+     */
+    protected Integer getIntegerFromField(int fieldID) {
+        String text = getTextFromField(fieldID);
+
+        if (text != null) {
+            return Integer.parseInt(text);
+        }
+
+        return null;
+    }
+
+
+    /**
      * Metodo para pegar a selecao ou nao selecao de um botao
      *
      * @param fieldID - Id do botao radio
@@ -104,32 +149,47 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para inserir mascara nos campos
+     * Metodo para inserir uma mascara no campo
      *
-     * @param maskID  - Id da mascara escolhida para o campo
      * @param fieldID - Id do campo a receber a mascara
+     * @param maskID  - Id da mascara escolhida para o campo
      */
-    protected void insertMaskInField(int fieldID, int maskID) {
+    protected void setMask(int fieldID, int maskID) {
+        setMask(fieldID, getString(maskID));
+    }
+
+    /**
+     * Metodo para inserir uma mascara no campo
+     *
+     * @param fieldID - Id do campo a receber a mascara
+     * @param mask    - Mascara escolhida para o campo
+     */
+    protected void setMask(int fieldID, String mask) {
         EditText field = (EditText) findViewById(fieldID);
 
         if (field != null) {
-            field.addTextChangedListener(Mask.insert(getString(maskID), field));
+            field.addTextChangedListener(Mask.insert(mask, field));
         }
     }
 
     /**
      * Metodo para exibir dialogo de confirmacao para sair do app
+     *
+     * @param titleID        - Id do titulo a ser utilizada no dialog
+     * @param messageID      - Id da mensagem a ser utilizada no dialog
+     * @param positiveTextID - Id da mensagem para o botao positivo
+     * @param negativeTextID - Id da mensagem para o botao negativo
      */
-    protected void showBackMessage() {
+    protected void showExitDialog(int titleID, int messageID, int positiveTextID, int negativeTextID) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.exit_title);
-        builder.setMessage(R.string.exit_question_statement);
-        builder.setPositiveButton(R.string.exit_confirm, new DialogInterface.OnClickListener() {
+        builder.setTitle(titleID);
+        builder.setMessage(messageID);
+        builder.setPositiveButton(positiveTextID, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 finish();
             }
         });
-        builder.setNegativeButton(R.string.exit_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(negativeTextID, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 dialog.cancel();
             }
@@ -140,12 +200,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para mostrar ao usuario que tem um campo errado
+     * Metodo para set erro em algum campo
      *
-     * @param fieldID        - Id do campo a ser evidenciado em caso de erro
+     * @param fieldID        - Id do campo a ser evidenciado
      * @param errorMessageID - Id da mensagem de erro a ser exibida no campo
      */
-    private void showErrorMessage(int fieldID, int errorMessageID) {
+    protected void setErrorMessage(int fieldID, int errorMessageID) {
         TextInputLayout field = (TextInputLayout) findViewById(fieldID);
 
         if (field != null) {
@@ -157,28 +217,40 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Metodo para verificar se o campo não é nulo nem vazio
      *
-     * @param idField  - id do campo a ser validado
-     * @param idLayout - id do layout a ser evidenciado em caso de erro
+     * @param fieldID        - Id do campo a ser validado
+     * @param layoutID       - Id do layout a ser evidenciado em caso de erro
+     * @param errorMessageID - Id da mensagem de erro
      * @return true se não for vazio e nem nulo, false se for nulo ou vazio
      */
-    protected boolean validateEditText(int idField, int idLayout) {
-        String text = getTextFromField(idField);
+    protected boolean validateFieldNotNullOrNotEmpty(int fieldID, int layoutID, int errorMessageID) {
+        String text = getTextFromField(fieldID);
 
         if (text == null || text.isEmpty()) {
-            showErrorMessage(idLayout, R.string.validation_required);
+            setErrorMessage(layoutID, errorMessageID);
             return false;
         }
 
-        clearErrorField(idLayout);
+        clearError(layoutID);
         return true;
     }
 
-    private void clearErrorField(int fieldID) {
-        TextInputLayout field = (TextInputLayout) findViewById(fieldID);
+    /**
+     * Metodo para tirar a marcacao de erro de um determinado campo
+     *
+     * @param layoutID - Id do text input layout em que o erro deve ser removido
+     */
+    protected void clearError(int layoutID) {
+        TextInputLayout field = (TextInputLayout) findViewById(layoutID);
         field.setErrorEnabled(false);
     }
 
-    private int getInputType(int fieldID) {
+    /**
+     * Metodo para pegar o tipo de um campo
+     *
+     * @param fieldID - Id do campo
+     * @return Id do tipo do campo
+     */
+    private int getFieldType(int fieldID) {
         EditText editText = (EditText) findViewById(fieldID);
         return editText.getInputType();
     }
@@ -208,17 +280,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para inserir um texto formatado em uma TextView
-     *
-     * @param fieldID - id da TextView na qual o texto sera inserido
-     * @param text    - texto que sera inserido de maneira formatada na TextView
-     */
-    protected void setTextHTMLFormatInTextView(int fieldID, String text) {
-        String bodyContent = "<body>" + text + "</body>";
-        setHTMLContentInTextView(fieldID, bodyContent);
-    }
-
-    /**
      * Metodo que seta cor em um texto
      *
      * @param fieldID - Id do campo que contem o texto a receber a cor
@@ -242,6 +303,19 @@ public class BaseActivity extends AppCompatActivity {
 
         if (radioButton != null) {
             radioButton.setChecked(true);
+        }
+    }
+
+    /**
+     * Metodo para remover a marcacao de um RadioGroup
+     *
+     * @param radioGroupID - id do RabioGroup a ter as marcacoes retiradas
+     */
+    protected void clearRadioGroup(int radioGroupID) {
+        RadioGroup radioGroup = (RadioGroup) findViewById(radioGroupID);
+
+        if (radioGroup != null) {
+            radioGroup.clearCheck();
         }
     }
 
@@ -296,13 +370,13 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Metodo para setar conteudo formatado com tags HTML
      *
-     * @param fieldID     - id do campo a receber o texto formatado
-     * @param bodyContent - body do html com as formatacoes necessarias
+     * @param fieldID     - Id do campo a receber o texto formatado
+     * @param bodyContent - Body do html com as formatacoes necessarias
      */
-    private void setHTMLContentInTextView(int fieldID, String bodyContent) {
+    protected void setHTMLContent(int fieldID, String bodyContent) {
         String htmlFormatted = "<html><head>" +
                 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>" +
-                bodyContent + "</html>";
+                "<body>" + bodyContent + "</body></html>";
 
         TextView textView = (TextView) findViewById(fieldID);
 
@@ -312,6 +386,16 @@ public class BaseActivity extends AppCompatActivity {
             else
                 textView.setText(Html.fromHtml(htmlFormatted));
         }
+    }
+
+    /**
+     * Metodo para setar conteudo formatado com tags HTML
+     *
+     * @param fieldID       - Id do campo a receber o texto formatado
+     * @param bodyContentID - Id do body do html com as formatacoes necessarias
+     */
+    protected void setHTMLContent(int fieldID, int bodyContentID) {
+        setHTMLContent(fieldID, getString(bodyContentID));
     }
 
     /**
