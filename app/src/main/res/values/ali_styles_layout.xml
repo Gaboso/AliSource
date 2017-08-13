@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ali_input_layout" parent="Widget.Design.TextInputLayout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/ali_size_48</item>
+
+        <item name="android:paddingTop">@dimen/ali_size_8</item>
+        <item name="android:paddingBottom">@dimen/ali_size_8</item>
+
+        <item name="android:paddingRight">@dimen/ali_size_4</item>
+        <item name="android:paddingLeft">@dimen/ali_size_4</item>
+    </style>
+
+    <style name="ali_input_layout.whole">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="ali_input_layout.piece">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">3</item>
+    </style>
+
+</resources>

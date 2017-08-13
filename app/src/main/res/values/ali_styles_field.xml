@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ali_field" parent="android:Widget.EditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">@dimen/ali_size_48</item>
+
+        <item name="android:paddingTop">@dimen/ali_size_8</item>
+        <item name="android:paddingBottom">@dimen/ali_size_8</item>
+
+        <item name="android:paddingRight">@dimen/ali_size_4</item>
+        <item name="android:paddingLeft">@dimen/ali_size_4</item>
+
+        <item name="android:textSize">@dimen/ali_text_16</item>
+    </style>
+
+    <style name="ali_field.decimal">
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="ali_field.integer">
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="ali_field.password">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="ali_field.phone">
+        <item name="android:inputType">phone</item>
+    </style>
+
+    <style name="ali_field.text">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="ali_field.date">
+        <item name="android:inputType">date</item>
+    </style>
+
+    <style name="ali_field.datetime">
+        <item name="android:inputType">datetime</item>
+    </style>
+
+    <style name="ali_field.time">
+        <item name="android:inputType">time</item>
+    </style>
+
+</resources>

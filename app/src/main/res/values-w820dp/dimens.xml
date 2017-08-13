@@ -1,14 +1,17 @@
 <resources>
-    <dimen name="text_20">25sp</dimen>
-    <dimen name="text_18">18sp</dimen>
-    <dimen name="text_16">16sp</dimen>
+    <dimen name="ali_text_20">40sp</dimen>
+    <dimen name="ali_text_18">36sp</dimen>
+    <dimen name="ali_text_16">32sp</dimen>
+    <dimen name="ali_text_14">28sp</dimen>
 
-    <dimen name="medida_64">64dp</dimen>
-    <dimen name="medida_36">36dp</dimen>
-    <dimen name="medida_16">16dp</dimen>
-    <dimen name="medida_12">12dp</dimen>
-    <dimen name="medida_10">10dp</dimen>
-    <dimen name="medida_4">4dp</dimen>
-    <dimen name="medida_2">2dp</dimen>
-    <dimen name="medida_1">1dp</dimen>
+    <dimen name="ali_size_64">128dp</dimen>
+    <dimen name="ali_size_48">96dp</dimen>
+    <dimen name="ali_size_36">72dp</dimen>
+    <dimen name="ali_size_16">32dp</dimen>
+    <dimen name="ali_size_12">24dp</dimen>
+    <dimen name="ali_size_10">20dp</dimen>
+    <dimen name="ali_size_8">16dp</dimen>
+    <dimen name="ali_size_4">8dp</dimen>
+    <dimen name="ali_size_2">4dp</dimen>
+    <dimen name="ali_size_1">2dp</dimen>
 </resources>

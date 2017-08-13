@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="radio_button" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+
+        <item name="android:layout_marginTop">@dimen/ali_size_4</item>
+        <item name="android:layout_marginBottom">@dimen/ali_size_4</item>
+
+        <item name="android:paddingTop">@dimen/ali_size_12</item>
+        <item name="android:paddingBottom">@dimen/ali_size_12</item>
+
+        <item name="android:textSize">@dimen/ali_text_16</item>
+    </style>
+
+    <style name="button" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:layout_marginTop">@dimen/ali_size_4</item>
+        <item name="android:layout_marginBottom">@dimen/ali_size_4</item>
+        <item name="android:layout_marginLeft">@dimen/ali_size_8</item>
+        <item name="android:layout_marginRight">@dimen/ali_size_8</item>
+
+        <item name="android:paddingTop">@dimen/ali_size_12</item>
+        <item name="android:paddingBottom">@dimen/ali_size_12</item>
+        <item name="android:paddingLeft">@dimen/ali_size_8</item>
+        <item name="android:paddingRight">@dimen/ali_size_8</item>
+
+        <item name="android:textSize">@dimen/ali_text_14</item>
+
+        <item name="android:minHeight">@dimen/ali_size_36</item>
+        <item name="android:minWidth">@dimen/ali_size_64</item>
+    </style>
+
+    <style name="button.whole" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="button.piece" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">3</item>
+    </style>
+
+</resources>
