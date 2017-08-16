@@ -250,7 +250,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do campo
      * @return Id do tipo do campo
      */
-    private int getFieldType(int fieldID) {
+    protected int getFieldType(int fieldID) {
         EditText editText = (EditText) findViewById(fieldID);
         return editText.getInputType();
     }
@@ -402,14 +402,14 @@ public class BaseActivity extends AppCompatActivity {
      * Metodo que cria transicao de entrada para uma activity
      */
     protected void enterActivityTransition() {
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        overridePendingTransition(R.anim.ali_slide_from_right, R.anim.ali_slide_to_left);
     }
 
     /**
      * Metodo que cria transicao de saida para uma activity
      */
     protected void exitActivityTransition() {
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        overridePendingTransition(R.anim.ali_slide_from_left, R.anim.ali_slide_to_right);
     }
 
 }
