@@ -412,4 +412,19 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.ali_slide_from_left, R.anim.ali_slide_to_right);
     }
 
+    protected void setVisibilityGone(int id){
+        TextView textView = (TextView) findViewById(id);
+        textView.setVisibility(View.GONE);
+    }
+
+    protected void setVisibilityVisible(int id){
+        TextView textView = (TextView) findViewById(id);
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    protected void setVisibilityInvisible(int id){
+        TextView textView = (TextView) findViewById(id);
+        textView.setVisibility(View.INVISIBLE);
+    }
+
 }
