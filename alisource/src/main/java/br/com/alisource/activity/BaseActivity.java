@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import br.com.alisource.R;
 import br.com.alisource.mask.Mask;
 
@@ -39,8 +38,7 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected void openActivity(View view, Class destionationClass) {
         Intent intent = new Intent(view.getContext(), destionationClass);
-        startActivity(intent);
-        enterActivityTransition();
+        openActivity(intent);
     }
 
     /**
@@ -52,7 +50,6 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
         enterActivityTransition();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -135,7 +132,6 @@ public class BaseActivity extends AppCompatActivity {
         return null;
     }
 
-
     /**
      * Metodo para pegar a selecao ou nao selecao de um botao
      *
@@ -144,7 +140,6 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected boolean getBooleanFromRadio(int fieldID) {
         RadioButton radioButton = (RadioButton) findViewById(fieldID);
-
         return radioButton != null && radioButton.isChecked();
     }
 
@@ -181,15 +176,32 @@ public class BaseActivity extends AppCompatActivity {
      * @param negativeTextID - Id da mensagem para o botao negativo
      */
     protected void showExitDialog(int titleID, int messageID, int positiveTextID, int negativeTextID) {
+        String title = getString(titleID);
+        String message = getString(messageID);
+        String positiveText = getString(positiveTextID);
+        String negativeText = getString(negativeTextID);
+
+        showExitDialog(title, message, positiveText, negativeText);
+    }
+
+    /**
+     * Metodo para exibir dialogo de confirmacao para sair do app
+     *
+     * @param title        - Titulo a ser utilizada no dialog
+     * @param message      - Mensagem a ser utilizada no dialog
+     * @param positiveText - Mensagem para o botao positivo
+     * @param negativeText - Mensagem para o botao negativo
+     */
+    protected void showExitDialog(String title, String message, String positiveText, String negativeText) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(titleID);
-        builder.setMessage(messageID);
-        builder.setPositiveButton(positiveTextID, new DialogInterface.OnClickListener() {
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 finish();
             }
         });
-        builder.setNegativeButton(negativeTextID, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 dialog.cancel();
             }
@@ -206,11 +218,21 @@ public class BaseActivity extends AppCompatActivity {
      * @param errorMessageID - Id da mensagem de erro a ser exibida no campo
      */
     protected void setErrorMessage(int fieldID, int errorMessageID) {
+        setErrorMessage(fieldID, getString(errorMessageID));
+    }
+
+    /**
+     * Metodo para set erro em algum campo
+     *
+     * @param fieldID      - Id do campo a ser evidenciado
+     * @param errorMessage - Mensagem de erro a ser exibida no campo
+     */
+    protected void setErrorMessage(int fieldID, String errorMessage) {
         TextInputLayout field = (TextInputLayout) findViewById(fieldID);
 
         if (field != null) {
             field.setErrorEnabled(true);
-            field.setError(getString(errorMessageID));
+            field.setError(errorMessage);
         }
     }
 
@@ -258,6 +280,16 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Metodo que seta texto no campo
      *
+     * @param fieldID   - Id do campo a ser setado
+     * @param contentID - Id do conteudo textual a ser setado no campo
+     */
+    protected void setText(int fieldID, int contentID) {
+        setText(fieldID, getString(contentID));
+    }
+
+    /**
+     * Metodo que seta texto no campo
+     *
      * @param fieldID - Id do campo a ser setado
      * @param content - Conteudo textual a ser setado no campo
      */
@@ -267,16 +299,6 @@ public class BaseActivity extends AppCompatActivity {
         if (textView != null) {
             textView.setText(content);
         }
-    }
-
-    /**
-     * Metodo que seta texto no campo
-     *
-     * @param fieldID   - Id do campo a ser setado
-     * @param contentID - Id do conteudo textual a ser setado no campo
-     */
-    protected void setText(int fieldID, int contentID) {
-        setText(fieldID, getString(contentID));
     }
 
     /**
@@ -317,6 +339,17 @@ public class BaseActivity extends AppCompatActivity {
         if (radioGroup != null) {
             radioGroup.clearCheck();
         }
+    }
+
+    /**
+     * Metodo para pegar o id do botao selecionado no radio grupo
+     *
+     * @param groupID - Id do radio grupo
+     * @return id do botao selecionado
+     */
+    protected int getCheckedRadioButtonId(int groupID) {
+        RadioGroup radioGroup = (RadioGroup) findViewById(groupID);
+        return radioGroup.getCheckedRadioButtonId();
     }
 
     /**
@@ -412,17 +445,32 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.ali_slide_from_left, R.anim.ali_slide_to_right);
     }
 
-    protected void setVisibilityGone(int id){
+    /**
+     * Metodo para setar a visibilidade para GONE
+     *
+     * @param id - Id do componente a ter a visibilidade alterada
+     */
+    protected void setVisibilityGone(int id) {
         TextView textView = (TextView) findViewById(id);
         textView.setVisibility(View.GONE);
     }
 
-    protected void setVisibilityVisible(int id){
+    /**
+     * Metodo para setar a visibilidade para VISIBLE
+     *
+     * @param id - Id do componente a ter a visibilidade alterada
+     */
+    protected void setVisibilityVisible(int id) {
         TextView textView = (TextView) findViewById(id);
         textView.setVisibility(View.VISIBLE);
     }
 
-    protected void setVisibilityInvisible(int id){
+    /**
+     * Metodo para setar a visibilidade para INVISIBLE
+     *
+     * @param id - Id do componente a ter a visibilidade alterada
+     */
+    protected void setVisibilityInvisible(int id) {
         TextView textView = (TextView) findViewById(id);
         textView.setVisibility(View.INVISIBLE);
     }
