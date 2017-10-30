@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.ColorRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -17,17 +20,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import br.com.alisource.R;
 import br.com.alisource.mask.Mask;
 
-
-/**
- * Created by Gaboso
- * on 01/11/2016
- * <p>
- * ActivityUtil
- * </p>
- */
 public class BaseActivity extends AppCompatActivity {
 
     /**
@@ -74,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do campo, para poder pegar ele
      * @return texto que tinha dentro do campo selecionado
      */
-    protected String getTextFromField(int fieldID) {
+    protected String getTextFromField(@IdRes int fieldID) {
         EditText editText = (EditText) findViewById(fieldID);
 
         if (editText == null) {
@@ -90,7 +86,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - id do campo
      * @return O valor do campo convertido para integer
      */
-    protected Long getLongFromField(int fieldID) {
+    protected Long getLongFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
@@ -106,7 +102,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - id do campo
      * @return O valor do campo convertido para double
      */
-    protected Double getDoubleFromField(int fieldID) {
+    protected Double getDoubleFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
@@ -122,7 +118,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - id do campo
      * @return O valor do campo convertido para integer
      */
-    protected Integer getIntegerFromField(int fieldID) {
+    protected Integer getIntegerFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
@@ -138,7 +134,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do botao radio
      * @return true se o botao estava selecionado e false caso contrario
      */
-    protected boolean getBooleanFromRadio(int fieldID) {
+    protected boolean getBooleanFromRadio(@IdRes int fieldID) {
         RadioButton radioButton = (RadioButton) findViewById(fieldID);
         return radioButton != null && radioButton.isChecked();
     }
@@ -149,7 +145,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do campo a receber a mascara
      * @param maskID  - Id da mascara escolhida para o campo
      */
-    protected void setMask(int fieldID, int maskID) {
+    protected void setMask(@IdRes int fieldID, @StringRes int maskID) {
         setMask(fieldID, getString(maskID));
     }
 
@@ -159,7 +155,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do campo a receber a mascara
      * @param mask    - Mascara escolhida para o campo
      */
-    protected void setMask(int fieldID, String mask) {
+    protected void setMask(@IdRes int fieldID, String mask) {
         EditText field = (EditText) findViewById(fieldID);
 
         if (field != null) {
@@ -175,7 +171,8 @@ public class BaseActivity extends AppCompatActivity {
      * @param positiveTextID - Id da mensagem para o botao positivo
      * @param negativeTextID - Id da mensagem para o botao negativo
      */
-    protected void showExitDialog(int titleID, int messageID, int positiveTextID, int negativeTextID) {
+    protected void showExitDialog(@StringRes int titleID, @StringRes int messageID,
+                                  @StringRes int positiveTextID, @StringRes int negativeTextID) {
         String title = getString(titleID);
         String message = getString(messageID);
         String positiveText = getString(positiveTextID);
@@ -217,7 +214,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID        - Id do campo a ser evidenciado
      * @param errorMessageID - Id da mensagem de erro a ser exibida no campo
      */
-    protected void setErrorMessage(int fieldID, int errorMessageID) {
+    protected void setErrorMessage(@IdRes int fieldID, @StringRes int errorMessageID) {
         setErrorMessage(fieldID, getString(errorMessageID));
     }
 
@@ -227,7 +224,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID      - Id do campo a ser evidenciado
      * @param errorMessage - Mensagem de erro a ser exibida no campo
      */
-    protected void setErrorMessage(int fieldID, String errorMessage) {
+    protected void setErrorMessage(@IdRes int fieldID, String errorMessage) {
         TextInputLayout field = (TextInputLayout) findViewById(fieldID);
 
         if (field != null) {
@@ -244,7 +241,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param errorMessageID - Id da mensagem de erro
      * @return true se não for vazio e nem nulo, false se for nulo ou vazio
      */
-    protected boolean validateFieldNotNullOrNotEmpty(int fieldID, int layoutID, int errorMessageID) {
+    protected boolean validateFieldNotNullOrNotEmpty(@IdRes int fieldID, @IdRes int layoutID, @StringRes int errorMessageID) {
         String text = getTextFromField(fieldID);
 
         if (text == null || text.isEmpty()) {
@@ -261,7 +258,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param layoutID - Id do text input layout em que o erro deve ser removido
      */
-    protected void clearError(int layoutID) {
+    protected void clearError(@IdRes int layoutID) {
         TextInputLayout field = (TextInputLayout) findViewById(layoutID);
         field.setErrorEnabled(false);
     }
@@ -272,7 +269,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do campo
      * @return Id do tipo do campo
      */
-    protected int getFieldType(int fieldID) {
+    protected int getFieldType(@IdRes int fieldID) {
         EditText editText = (EditText) findViewById(fieldID);
         return editText.getInputType();
     }
@@ -283,7 +280,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID   - Id do campo a ser setado
      * @param contentID - Id do conteudo textual a ser setado no campo
      */
-    protected void setText(int fieldID, int contentID) {
+    protected void setText(@IdRes int fieldID, @StringRes int contentID) {
         setText(fieldID, getString(contentID));
     }
 
@@ -293,7 +290,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do campo a ser setado
      * @param content - Conteudo textual a ser setado no campo
      */
-    protected void setText(int fieldID, String content) {
+    protected void setText(@IdRes int fieldID, String content) {
         TextView textView = (TextView) findViewById(fieldID);
 
         if (textView != null) {
@@ -307,7 +304,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - Id do campo que contem o texto a receber a cor
      * @param colorID - Id da cor a ser setada no texto
      */
-    protected void setTextColor(int fieldID, int colorID) {
+    protected void setTextColor(@IdRes int fieldID, @ColorRes int colorID) {
         TextView textView = (TextView) findViewById(fieldID);
 
         if (textView != null) {
@@ -320,7 +317,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param radioID - id do RabioButton a ser marcado
      */
-    protected void checkRadio(int radioID) {
+    protected void checkRadio(@IdRes int radioID) {
         RadioButton radioButton = (RadioButton) findViewById(radioID);
 
         if (radioButton != null) {
@@ -333,7 +330,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param radioGroupID - id do RabioGroup a ter as marcacoes retiradas
      */
-    protected void clearRadioGroup(int radioGroupID) {
+    protected void clearRadioGroup(@IdRes int radioGroupID) {
         RadioGroup radioGroup = (RadioGroup) findViewById(radioGroupID);
 
         if (radioGroup != null) {
@@ -347,7 +344,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param groupID - Id do radio grupo
      * @return id do botao selecionado
      */
-    protected int getCheckedRadioButtonId(int groupID) {
+    protected int getCheckedRadioButtonId(@IdRes int groupID) {
         RadioGroup radioGroup = (RadioGroup) findViewById(groupID);
         return radioGroup.getCheckedRadioButtonId();
     }
@@ -360,8 +357,13 @@ public class BaseActivity extends AppCompatActivity {
     protected boolean networkConnectivity() {
         ConnectivityManager manager = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
+        NetworkInfo networkInfo = null;
+
+        if (manager != null) {
+            networkInfo = manager.getActiveNetworkInfo();
+        }
+
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
     /**
@@ -380,7 +382,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param fieldID - id do campo a ter o foco removido
      */
-    protected void clearFocus(int fieldID) {
+    protected void clearFocus(@IdRes int fieldID) {
         EditText editText = (EditText) findViewById(fieldID);
 
         if (editText != null) {
@@ -395,8 +397,11 @@ public class BaseActivity extends AppCompatActivity {
         View view = getCurrentFocus();
 
         if (view != null) {
-            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).
-                    hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            if (inputMethodManager != null) {
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -406,7 +411,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID     - Id do campo a receber o texto formatado
      * @param bodyContent - Body do html com as formatacoes necessarias
      */
-    protected void setHTMLContent(int fieldID, String bodyContent) {
+    protected void setHTMLContent(@IdRes int fieldID, String bodyContent) {
         String htmlFormatted = "<html><head>" +
                 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>" +
                 "<body>" + bodyContent + "</body></html>";
@@ -414,10 +419,11 @@ public class BaseActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(fieldID);
 
         if (textView != null) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
-                textView.setText(Html.fromHtml(htmlFormatted, Html.FROM_HTML_MODE_LEGACY));
-            else
-                textView.setText(Html.fromHtml(htmlFormatted));
+            textView.setText(
+                    android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N ?
+                            Html.fromHtml(htmlFormatted, Html.FROM_HTML_MODE_LEGACY) :
+                            Html.fromHtml(htmlFormatted)
+            );
         }
     }
 
@@ -427,7 +433,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID       - Id do campo a receber o texto formatado
      * @param bodyContentID - Id do body do html com as formatacoes necessarias
      */
-    protected void setHTMLContent(int fieldID, int bodyContentID) {
+    protected void setHTMLContent(@IdRes int fieldID, @StringRes int bodyContentID) {
         setHTMLContent(fieldID, getString(bodyContentID));
     }
 
@@ -450,7 +456,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param id - Id do componente a ter a visibilidade alterada
      */
-    protected void setVisibilityGone(int id) {
+    protected void setVisibilityGone(@IdRes int id) {
         TextView textView = (TextView) findViewById(id);
         textView.setVisibility(View.GONE);
     }
@@ -460,7 +466,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param id - Id do componente a ter a visibilidade alterada
      */
-    protected void setVisibilityVisible(int id) {
+    protected void setVisibilityVisible(@IdRes int id) {
         TextView textView = (TextView) findViewById(id);
         textView.setVisibility(View.VISIBLE);
     }
@@ -470,7 +476,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param id - Id do componente a ter a visibilidade alterada
      */
-    protected void setVisibilityInvisible(int id) {
+    protected void setVisibilityInvisible(@IdRes int id) {
         TextView textView = (TextView) findViewById(id);
         textView.setVisibility(View.INVISIBLE);
     }
