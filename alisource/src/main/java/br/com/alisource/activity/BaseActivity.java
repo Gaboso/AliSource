@@ -3,14 +3,11 @@ package br.com.alisource.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -93,7 +90,7 @@ public class BaseActivity extends AppCompatActivity {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
-            return Long.parseLong(text);
+            return Long.valueOf(text);
         }
 
         return null;
@@ -109,7 +106,7 @@ public class BaseActivity extends AppCompatActivity {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
-            return Double.parseDouble(text);
+            return Double.valueOf(text);
         }
 
         return null;
@@ -125,7 +122,7 @@ public class BaseActivity extends AppCompatActivity {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
-            return Integer.parseInt(text);
+            return Integer.valueOf(text);
         }
 
         return null;
@@ -482,93 +479,6 @@ public class BaseActivity extends AppCompatActivity {
     protected void setVisibilityInvisible(@IdRes int id) {
         TextView textView = findViewById(id);
         textView.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar de sucesso
-     *
-     * @param view   - View qual deve ser exibida a SnackBar
-     * @param textID - Id do texto a ser exibido
-     */
-    protected void showSnackSuccess(View view, @StringRes int textID) {
-        showSnack(view, textID, Color.GREEN);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar de sucesso
-     *
-     * @param view - View qual deve ser exibida a SnackBar
-     * @param text - Texto a ser exibido
-     */
-    protected void showSnackSuccess(View view, String text) {
-        showSnack(view, text, Color.GREEN);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar de warning
-     *
-     * @param view   - View qual deve ser exibida a SnackBar
-     * @param textID - Id do texto a ser exibido
-     */
-    protected void showSnackWarning(View view, @StringRes int textID) {
-        showSnack(view, textID, Color.YELLOW);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar de warning
-     *
-     * @param view - View qual deve ser exibida a SnackBar
-     * @param text - Texto a ser exibido
-     */
-    protected void showSnackWarning(View view, String text) {
-        showSnack(view, text, Color.YELLOW);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar de erro
-     *
-     * @param view   - View qual deve ser exibida a SnackBar
-     * @param textID - Id do texto a ser exibido
-     */
-    protected void showSnackError(View view, @StringRes int textID) {
-        showSnack(view, textID, Color.RED);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar de erro
-     *
-     * @param view - View qual deve ser exibida a SnackBar
-     * @param text - Texto a ser exibido
-     */
-    protected void showSnackError(View view, String text) {
-        showSnack(view, text, Color.RED);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar
-     *
-     * @param view    - View qual deve ser exibida a SnackBar
-     * @param textID  - Id do texto a ser exibido
-     * @param colorID - Id da cor que o texto sera exibido
-     */
-    protected void showSnack(View view, @StringRes int textID, int colorID) {
-        showSnack(view, getString(textID), colorID);
-    }
-
-    /**
-     * Metodo para exibir uma SnackBar
-     *
-     * @param view    - View qual deve ser exibida a SnackBar
-     * @param text    - Texto a ser exibido
-     * @param colorID - Id da cor que o texto sera exibido
-     */
-    protected void showSnack(View view, String text, @Nullable int colorID) {
-        Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG);
-
-        View snackbarView = snackbar.getView();
-        TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(colorID);
-        snackbar.show();
     }
 
 }

@@ -11,6 +11,14 @@ import android.widget.EditText;
  */
 public class Mask {
 
+    private static final String CLOSE_PARENTHESIS = "[)]";
+    private static final String DOT = "[.]";
+    private static final String HYPHEN = "[-]";
+    private static final String OPEN_PARENTHESIS = "[(]";
+    private static final String SLASH = "[/]";
+    private static final String WHITE_SPACE = "[ ]";
+    private static final char MASK_BASE_CHAR = '#';
+
     private Mask() {
     }
 
@@ -40,7 +48,7 @@ public class Mask {
 
                 if (valueWithoutMask.length() > oldValue.length()) {
                     for (char maskChar : maskFormat.toCharArray()) {
-                        if (maskChar != '#')
+                        if (maskChar != MASK_BASE_CHAR)
                             valueWithMask += Character.toString(maskChar);
                         else {
                             try {
@@ -81,9 +89,12 @@ public class Mask {
      * @return texto sem a mascara
      */
     private static String getValueWithoutMask(String text) {
-        return text.replaceAll("[.]", "").replaceAll("[-]", "")
-                .replaceAll("[/]", "").replaceAll("[(]", "")
-                .replaceAll("[)]", "").replaceAll("[ ]", "");
+        return text.replaceAll(DOT, "")
+                .replaceAll(HYPHEN, "")
+                .replaceAll(SLASH, "")
+                .replaceAll(OPEN_PARENTHESIS, "")
+                .replaceAll(CLOSE_PARENTHESIS, "")
+                .replaceAll(WHITE_SPACE, "");
     }
 
 }
