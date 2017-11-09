@@ -71,7 +71,7 @@ public class BaseActivity extends AppCompatActivity {
      * @return texto que tinha dentro do campo selecionado
      */
     protected String getTextFromField(@IdRes int fieldID) {
-        EditText editText = (EditText) findViewById(fieldID);
+        EditText editText = findViewById(fieldID);
 
         if (editText == null) {
             return null;
@@ -135,7 +135,7 @@ public class BaseActivity extends AppCompatActivity {
      * @return true se o botao estava selecionado e false caso contrario
      */
     protected boolean getBooleanFromRadio(@IdRes int fieldID) {
-        RadioButton radioButton = (RadioButton) findViewById(fieldID);
+        RadioButton radioButton = findViewById(fieldID);
         return radioButton != null && radioButton.isChecked();
     }
 
@@ -156,7 +156,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param mask    - Mascara escolhida para o campo
      */
     protected void setMask(@IdRes int fieldID, String mask) {
-        EditText field = (EditText) findViewById(fieldID);
+        EditText field = findViewById(fieldID);
 
         if (field != null) {
             field.addTextChangedListener(Mask.insert(mask, field));
@@ -225,7 +225,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param errorMessage - Mensagem de erro a ser exibida no campo
      */
     protected void setErrorMessage(@IdRes int fieldID, String errorMessage) {
-        TextInputLayout field = (TextInputLayout) findViewById(fieldID);
+        TextInputLayout field = findViewById(fieldID);
 
         if (field != null) {
             field.setErrorEnabled(true);
@@ -259,7 +259,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param layoutID - Id do text input layout em que o erro deve ser removido
      */
     protected void clearError(@IdRes int layoutID) {
-        TextInputLayout field = (TextInputLayout) findViewById(layoutID);
+        TextInputLayout field = findViewById(layoutID);
         field.setErrorEnabled(false);
     }
 
@@ -270,7 +270,7 @@ public class BaseActivity extends AppCompatActivity {
      * @return Id do tipo do campo
      */
     protected int getFieldType(@IdRes int fieldID) {
-        EditText editText = (EditText) findViewById(fieldID);
+        EditText editText = findViewById(fieldID);
         return editText.getInputType();
     }
 
@@ -291,7 +291,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param content - Conteudo textual a ser setado no campo
      */
     protected void setText(@IdRes int fieldID, String content) {
-        TextView textView = (TextView) findViewById(fieldID);
+        TextView textView = findViewById(fieldID);
 
         if (textView != null) {
             textView.setText(content);
@@ -305,7 +305,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param colorID - Id da cor a ser setada no texto
      */
     protected void setTextColor(@IdRes int fieldID, @ColorRes int colorID) {
-        TextView textView = (TextView) findViewById(fieldID);
+        TextView textView = findViewById(fieldID);
 
         if (textView != null) {
             textView.setTextColor(ContextCompat.getColor(getApplicationContext(), colorID));
@@ -318,7 +318,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param radioID - id do RabioButton a ser marcado
      */
     protected void checkRadio(@IdRes int radioID) {
-        RadioButton radioButton = (RadioButton) findViewById(radioID);
+        RadioButton radioButton = findViewById(radioID);
 
         if (radioButton != null) {
             radioButton.setChecked(true);
@@ -331,7 +331,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param radioGroupID - id do RabioGroup a ter as marcacoes retiradas
      */
     protected void clearRadioGroup(@IdRes int radioGroupID) {
-        RadioGroup radioGroup = (RadioGroup) findViewById(radioGroupID);
+        RadioGroup radioGroup = findViewById(radioGroupID);
 
         if (radioGroup != null) {
             radioGroup.clearCheck();
@@ -345,7 +345,7 @@ public class BaseActivity extends AppCompatActivity {
      * @return id do botao selecionado
      */
     protected int getCheckedRadioButtonId(@IdRes int groupID) {
-        RadioGroup radioGroup = (RadioGroup) findViewById(groupID);
+        RadioGroup radioGroup = findViewById(groupID);
         return radioGroup.getCheckedRadioButtonId();
     }
 
@@ -383,7 +383,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param fieldID - id do campo a ter o foco removido
      */
     protected void clearFocus(@IdRes int fieldID) {
-        EditText editText = (EditText) findViewById(fieldID);
+        EditText editText = findViewById(fieldID);
 
         if (editText != null) {
             editText.clearFocus();
@@ -416,7 +416,7 @@ public class BaseActivity extends AppCompatActivity {
                 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>" +
                 "<body>" + bodyContent + "</body></html>";
 
-        TextView textView = (TextView) findViewById(fieldID);
+        TextView textView = findViewById(fieldID);
 
         if (textView != null) {
             textView.setText(
@@ -457,7 +457,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param id - Id do componente a ter a visibilidade alterada
      */
     protected void setVisibilityGone(@IdRes int id) {
-        TextView textView = (TextView) findViewById(id);
+        TextView textView = findViewById(id);
         textView.setVisibility(View.GONE);
     }
 
@@ -467,7 +467,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param id - Id do componente a ter a visibilidade alterada
      */
     protected void setVisibilityVisible(@IdRes int id) {
-        TextView textView = (TextView) findViewById(id);
+        TextView textView = findViewById(id);
         textView.setVisibility(View.VISIBLE);
     }
 
@@ -477,7 +477,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param id - Id do componente a ter a visibilidade alterada
      */
     protected void setVisibilityInvisible(@IdRes int id) {
-        TextView textView = (TextView) findViewById(id);
+        TextView textView = findViewById(id);
         textView.setVisibility(View.INVISIBLE);
     }
 
