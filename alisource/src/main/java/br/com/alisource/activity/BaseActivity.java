@@ -90,7 +90,7 @@ public class BaseActivity extends AppCompatActivity {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
-            return Long.parseLong(text);
+            return Long.valueOf(text);
         }
 
         return null;
@@ -106,7 +106,7 @@ public class BaseActivity extends AppCompatActivity {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
-            return Double.parseDouble(text);
+            return Double.valueOf(text);
         }
 
         return null;
@@ -122,7 +122,7 @@ public class BaseActivity extends AppCompatActivity {
         String text = getTextFromField(fieldID);
 
         if (text != null) {
-            return Integer.parseInt(text);
+            return Integer.valueOf(text);
         }
 
         return null;
