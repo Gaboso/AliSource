@@ -27,20 +27,20 @@ import br.com.alisource.mask.Mask;
 public class BaseActivity extends AppCompatActivity {
 
     /**
-     * Metodo para abrir uma activity utilizando intent default
+     * Method to open an activity using a default intent
      *
-     * @param view              - View atual
-     * @param destionationClass - Classe da proxima tela
+     * @param view        - Current View
+     * @param targetClass - Target class
      */
-    protected void openActivity(View view, Class destionationClass) {
-        Intent intent = new Intent(view.getContext(), destionationClass);
+    protected void openActivity(View view, Class targetClass) {
+        Intent intent = new Intent(view.getContext(), targetClass);
         openActivity(intent);
     }
 
     /**
-     * Metodo para abrir uma activity utilizando intent personalizado
+     * Method to open an activity using a custom intent
      *
-     * @param intent - Intent personalizada
+     * @param intent - Custom Intent
      */
     protected void openActivity(Intent intent) {
         startActivity(intent);
@@ -65,10 +65,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pegar o texto de um campo, passando o id dele
+     * Method to get text from a field
      *
-     * @param fieldID - Id do campo, para poder pegar ele
-     * @return texto que tinha dentro do campo selecionado
+     * @param fieldID - Field id
+     * @return selected field text
      */
     protected String getTextFromField(@IdRes int fieldID) {
         EditText editText = findViewById(fieldID);
@@ -81,10 +81,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pegar um valor integer pelo id do campo
+     * Method to get an Long value
      *
-     * @param fieldID - id do campo
-     * @return O valor do campo convertido para integer
+     * @param fieldID - Field id
+     * @return value of field converted to Long
      */
     protected Long getLongFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
@@ -97,10 +97,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pegar um valor double pelo id do campo
+     * Method to get an Double value
      *
-     * @param fieldID - id do campo
-     * @return O valor do campo convertido para double
+     * @param fieldID - Field id
+     * @return value of field converted to Double
      */
     protected Double getDoubleFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
@@ -113,10 +113,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pegar um valor integer pelo id do campo
+     * Method to get an Integer value
      *
-     * @param fieldID - id do campo
-     * @return O valor do campo convertido para integer
+     * @param fieldID - Field id
+     * @return value of field converted to Integer
      */
     protected Integer getIntegerFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
@@ -129,31 +129,31 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pegar a selecao ou nao selecao de um botao
+     * Method to get selection of a RadioButton
      *
-     * @param fieldID - Id do botao radio
-     * @return true se o botao estava selecionado e false caso contrario
+     * @param radioID - RadioButton id
+     * @return true if RadioButton is selected and false otherwise
      */
-    protected boolean getBooleanFromRadio(@IdRes int fieldID) {
-        RadioButton radioButton = findViewById(fieldID);
+    protected boolean getBooleanFromRadio(@IdRes int radioID) {
+        RadioButton radioButton = findViewById(radioID);
         return radioButton != null && radioButton.isChecked();
     }
 
     /**
-     * Metodo para inserir uma mascara no campo
+     * Method to insert a mask in field
      *
-     * @param fieldID - Id do campo a receber a mascara
-     * @param maskID  - Id da mascara escolhida para o campo
+     * @param fieldID - Id of field to receive mask
+     * @param maskID  - Mask id
      */
     protected void setMask(@IdRes int fieldID, @StringRes int maskID) {
         setMask(fieldID, getString(maskID));
     }
 
     /**
-     * Metodo para inserir uma mascara no campo
+     * Method to insert a mask in field
      *
-     * @param fieldID - Id do campo a receber a mascara
-     * @param mask    - Mascara escolhida para o campo
+     * @param fieldID - Id of field to receive mask
+     * @param mask    - Mask
      */
     protected void setMask(@IdRes int fieldID, String mask) {
         EditText field = findViewById(fieldID);
@@ -164,12 +164,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para exibir dialogo de confirmacao para sair do app
+     * Method to display confirmation Dialog to exit app
      *
-     * @param titleID        - Id do titulo a ser utilizada no dialog
-     * @param messageID      - Id da mensagem a ser utilizada no dialog
-     * @param positiveTextID - Id da mensagem para o botao positivo
-     * @param negativeTextID - Id da mensagem para o botao negativo
+     * @param titleID        - Dialog title id
+     * @param messageID      - Dialog message id
+     * @param positiveTextID - Id of positive button text
+     * @param negativeTextID - Id of negative button text
      */
     protected void showExitDialog(@StringRes int titleID, @StringRes int messageID,
                                   @StringRes int positiveTextID, @StringRes int negativeTextID) {
@@ -182,12 +182,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para exibir dialogo de confirmacao para sair do app
+     * Method to display confirmation Dialog to exit app
      *
-     * @param title        - Titulo a ser utilizada no dialog
-     * @param message      - Mensagem a ser utilizada no dialog
-     * @param positiveText - Mensagem para o botao positivo
-     * @param negativeText - Mensagem para o botao negativo
+     * @param title        - Dialog title
+     * @param message      - Dialog message
+     * @param positiveText - Positive button text
+     * @param negativeText - Negative button text
      */
     protected void showExitDialog(String title, String message, String positiveText, String negativeText) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -209,20 +209,20 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para set erro em algum campo
+     * Method for setting error in a field
      *
-     * @param fieldID        - Id do campo a ser evidenciado
-     * @param errorMessageID - Id da mensagem de erro a ser exibida no campo
+     * @param fieldID        - Id of field to be evidenced
+     * @param errorMessageID - Id of error message to be displayed in field
      */
     protected void setErrorMessage(@IdRes int fieldID, @StringRes int errorMessageID) {
         setErrorMessage(fieldID, getString(errorMessageID));
     }
 
     /**
-     * Metodo para set erro em algum campo
+     * Method for setting error in a field
      *
-     * @param fieldID      - Id do campo a ser evidenciado
-     * @param errorMessage - Mensagem de erro a ser exibida no campo
+     * @param fieldID      - Id of field to be evidenced
+     * @param errorMessage - Error message to be displayed in field
      */
     protected void setErrorMessage(@IdRes int fieldID, String errorMessage) {
         TextInputLayout field = findViewById(fieldID);
@@ -234,12 +234,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para verificar se o campo não é nulo nem vazio
+     * Method to validate if field is not null or empty
      *
-     * @param fieldID        - Id do campo a ser validado
-     * @param layoutID       - Id do layout a ser evidenciado em caso de erro
-     * @param errorMessageID - Id da mensagem de erro
-     * @return true se não for vazio e nem nulo, false se for nulo ou vazio
+     * @param fieldID        - Id of field to be verified
+     * @param layoutID       - Id of layout to be evidenced in case of error
+     * @param errorMessageID - Error Message Id
+     * @return true if not empty or null, false if null or empty
      */
     protected boolean validateFieldNotNullOrNotEmpty(@IdRes int fieldID, @IdRes int layoutID, @StringRes int errorMessageID) {
         String text = getTextFromField(fieldID);
@@ -254,9 +254,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para tirar a marcacao de erro de um determinado campo
+     * Method to remove error signal from a field
      *
-     * @param layoutID - Id do text input layout em que o erro deve ser removido
+     * @param layoutID - TextInputLayout Id where error should be removed
      */
     protected void clearError(@IdRes int layoutID) {
         TextInputLayout field = findViewById(layoutID);
@@ -264,10 +264,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pegar o tipo de um campo
+     * Method to get type of a field
      *
-     * @param fieldID - Id do campo
-     * @return Id do tipo do campo
+     * @param fieldID - Field id
+     * @return Field type Id
      */
     protected int getFieldType(@IdRes int fieldID) {
         EditText editText = findViewById(fieldID);
@@ -275,23 +275,23 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo que seta texto no campo
+     * Method to set text
      *
-     * @param fieldID   - Id do campo a ser setado
-     * @param contentID - Id do conteudo textual a ser setado no campo
+     * @param componentID - Id of component that will receive text
+     * @param contentID   - Id of textual content
      */
-    protected void setText(@IdRes int fieldID, @StringRes int contentID) {
-        setText(fieldID, getString(contentID));
+    protected void setText(@IdRes int componentID, @StringRes int contentID) {
+        setText(componentID, getString(contentID));
     }
 
     /**
-     * Metodo que seta texto no campo
+     * Method to set text
      *
-     * @param fieldID - Id do campo a ser setado
-     * @param content - Conteudo textual a ser setado no campo
+     * @param componentID - Id do campo a ser setado
+     * @param content     - Textual content
      */
-    protected void setText(@IdRes int fieldID, String content) {
-        TextView textView = findViewById(fieldID);
+    protected void setText(@IdRes int componentID, String content) {
+        TextView textView = findViewById(componentID);
 
         if (textView != null) {
             textView.setText(content);
@@ -299,10 +299,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo que seta cor em um texto
+     * Method to set color in a text
      *
-     * @param fieldID - Id do campo que contem o texto a receber a cor
-     * @param colorID - Id da cor a ser setada no texto
+     * @param fieldID - Id field that contains the text which will receive the color
+     * @param colorID - Color id to be set in text
      */
     protected void setTextColor(@IdRes int fieldID, @ColorRes int colorID) {
         TextView textView = findViewById(fieldID);
@@ -313,9 +313,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para marcar um RadioButton
+     * Method to select a RadioButton
      *
-     * @param radioID - id do RabioButton a ser marcado
+     * @param radioID - id RadioButton to be selected
      */
     protected void checkRadio(@IdRes int radioID) {
         RadioButton radioButton = findViewById(radioID);
@@ -326,9 +326,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para remover a marcacao de um RadioGroup
+     * Method to remove a RadioGroup selection
      *
-     * @param radioGroupID - id do RabioGroup a ter as marcacoes retiradas
+     * @param radioGroupID - id of RadioGroup to have selections removed
      */
     protected void clearRadioGroup(@IdRes int radioGroupID) {
         RadioGroup radioGroup = findViewById(radioGroupID);
@@ -339,10 +339,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para pegar o id do botao selecionado no radio grupo
+     * Method to get id of selected RadioButton in a RadioGroup
      *
-     * @param groupID - Id do radio grupo
-     * @return id do botao selecionado
+     * @param groupID - RadioGroup id
+     * @return selected RadioButton id
      */
     protected int getCheckedRadioButtonId(@IdRes int groupID) {
         RadioGroup radioGroup = findViewById(groupID);
@@ -350,9 +350,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para checar se o celeular possui conectividade com a rede
+     * Method to check the network connectivity
      *
-     * @return retorna true para conectividade e false para a falta dela
+     * @return true for connectivity and false for lack of it
      */
     protected boolean networkConnectivity() {
         ConnectivityManager manager = (ConnectivityManager) getApplicationContext()
@@ -367,9 +367,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para remover o foco de varios campos
+     * Method to remove focus from multiple fields
      *
-     * @param fieldIDs - array com ids dos campos a terem o foco removido
+     * @param fieldIDs - Array with field ids to have the focus removed
      */
     protected void clearFocus(int[] fieldIDs) {
         for (int fieldID : fieldIDs) {
@@ -378,9 +378,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para remover o foco de um campo
+     * Method to remove focus from a field
      *
-     * @param fieldID - id do campo a ter o foco removido
+     * @param fieldID - Field id to have focus removed
      */
     protected void clearFocus(@IdRes int fieldID) {
         EditText editText = findViewById(fieldID);
@@ -391,7 +391,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para esconder o teclado
+     * MMethod to hide keyboard
      */
     protected void hideKeyboard() {
         View view = getCurrentFocus();
@@ -406,10 +406,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para setar conteudo formatado com tags HTML
+     * Method for seting textual content formatted with HTML tags
      *
-     * @param fieldID     - Id do campo a receber o texto formatado
-     * @param bodyContent - Body do html com as formatacoes necessarias
+     * @param fieldID     - Id of component to receive formatted text
+     * @param bodyContent - HTML body with formatting
      */
     protected void setHTMLContent(@IdRes int fieldID, String bodyContent) {
         String htmlFormatted = "<html><head>" +
@@ -428,33 +428,33 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para setar conteudo formatado com tags HTML
+     * Method for seting textual content formatted with HTML tags
      *
-     * @param fieldID       - Id do campo a receber o texto formatado
-     * @param bodyContentID - Id do body do html com as formatacoes necessarias
+     * @param fieldID       - Id of component to receive formatted text
+     * @param bodyContentID - HTML body id with formatting
      */
     protected void setHTMLContent(@IdRes int fieldID, @StringRes int bodyContentID) {
         setHTMLContent(fieldID, getString(bodyContentID));
     }
 
     /**
-     * Metodo que cria transicao de entrada para uma activity
+     * Method that creates enter transition
      */
     protected void enterActivityTransition() {
         overridePendingTransition(R.anim.ali_slide_from_right, R.anim.ali_slide_to_left);
     }
 
     /**
-     * Metodo que cria transicao de saida para uma activity
+     * Method that creates exit transition
      */
     protected void exitActivityTransition() {
         overridePendingTransition(R.anim.ali_slide_from_left, R.anim.ali_slide_to_right);
     }
 
     /**
-     * Metodo para setar a visibilidade para GONE
+     * Method to set field visibility to GONE
      *
-     * @param id - Id do componente a ter a visibilidade alterada
+     * @param id - Component Id to have visibility changed
      */
     protected void setVisibilityGone(@IdRes int id) {
         TextView textView = findViewById(id);
@@ -462,9 +462,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para setar a visibilidade para VISIBLE
+     * Method to set field visibility to VISIBLE
      *
-     * @param id - Id do componente a ter a visibilidade alterada
+     * @param id - Component Id to have visibility changed
      */
     protected void setVisibilityVisible(@IdRes int id) {
         TextView textView = findViewById(id);
@@ -472,9 +472,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo para setar a visibilidade para INVISIBLE
+     * Method to set field visibility to INVISIBLE
      *
-     * @param id - Id do componente a ter a visibilidade alterada
+     * @param id - IComponent Id to have visibility changed
      */
     protected void setVisibilityInvisible(@IdRes int id) {
         TextView textView = findViewById(id);
