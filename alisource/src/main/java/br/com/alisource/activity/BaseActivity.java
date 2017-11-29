@@ -24,6 +24,10 @@ import android.widget.TextView;
 import br.com.alisource.R;
 import br.com.alisource.mask.Mask;
 
+/**
+ * Class helper to get or set items from View and
+ * also control other actions related to View
+ */
 public class BaseActivity extends AppCompatActivity {
 
     /**
