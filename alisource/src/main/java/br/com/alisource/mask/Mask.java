@@ -6,8 +6,12 @@ import android.util.Log;
 import android.widget.EditText;
 
 /**
- * Classe que contem mascara que podem ser inseridas em vários lugares.
- * Exemplo: telefone, cep, cpf, cnpj
+ * Helper class to use field masks.
+ * <p>
+ * Example mask patterns:
+ * Phone number US: (###) ###-####
+ * Mobiles in UK: 07### ######
+ * Mobiles in BR: (##) 9####-####
  */
 public class Mask {
 
@@ -23,11 +27,11 @@ public class Mask {
     }
 
     /**
-     * Metodo para inserir a mascara e um determindao campo
+     * Method to insert a mask in a field
      *
-     * @param maskFormat - Formato da mascara
-     * @param field      - Campo a ser setado
-     * @return retorna o listener adicionado no campo para controlar a mascara
+     * @param maskFormat - Mask format
+     * @param field      - Field that will receive mask
+     * @return listener that was added in field to control mask
      */
     public static TextWatcher insert(final String maskFormat, final EditText field) {
         return new TextWatcher() {
@@ -83,13 +87,13 @@ public class Mask {
     }
 
     /**
-     * Metodo para tirar os caracteres especiais da mascara
+     * Method to remove special characters from mask
      *
-     * @param text - Texto com a mascara
-     * @return texto sem a mascara
+     * @param textWithMask - Text with mask
+     * @return Text without mask
      */
-    private static String getValueWithoutMask(String text) {
-        return text.replaceAll(DOT, "")
+    private static String getValueWithoutMask(String textWithMask) {
+        return textWithMask.replaceAll(DOT, "")
                 .replaceAll(HYPHEN, "")
                 .replaceAll(SLASH, "")
                 .replaceAll(OPEN_PARENTHESIS, "")
