@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2018-01-24
+
+### Changed
+- Updating android dependencies of project, from '27.0.1' to '27.0.2'.
+
 ## [0.1.4] - 2017-11-29
 
 ### Added
