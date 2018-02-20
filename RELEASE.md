@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2018-02-19
+
+### Changed
+- Moved 'br.com.alisource' package classes to 'com.github.gaboso' package.
+
 ## [0.1.5] - 2018-02-03
 
 ### Changed
