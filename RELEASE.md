@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2017-02-21
+
+### Added
+- Style for email field.
+
 ## [1.0.1] - 2018-02-19
 
 ### Changed
