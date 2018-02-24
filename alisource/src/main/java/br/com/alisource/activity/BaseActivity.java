@@ -21,6 +21,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import br.com.alisource.R;
 import br.com.alisource.mask.Mask;
 
@@ -478,11 +481,22 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method to set field visibility to INVISIBLE
      *
-     * @param id - IComponent Id to have visibility changed
+     * @param id - Component Id to have visibility changed
      */
     protected void setVisibilityInvisible(@IdRes int id) {
         TextView textView = findViewById(id);
         textView.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Method to load ads in activity
+     *
+     * @param id - Component id to receive ads
+     */
+    protected void loadAd(int id) {
+        AdView adView = findViewById(id);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
 
 }
