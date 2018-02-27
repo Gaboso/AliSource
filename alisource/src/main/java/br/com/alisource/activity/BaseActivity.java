@@ -489,7 +489,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to load ads in activity
+     * Method to load ad in activity
      *
      * @param id - Component id to receive ads
      */
