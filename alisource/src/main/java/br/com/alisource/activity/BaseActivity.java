@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.util.Date;
+
 import br.com.alisource.R;
 import br.com.alisource.mask.Mask;
 
@@ -130,6 +132,22 @@ public class BaseActivity extends AppCompatActivity {
 
         if (text != null) {
             return Integer.valueOf(text);
+        }
+
+        return null;
+    }
+
+    /**
+     * Method to get a Date value
+     *
+     * @param fieldID - Field id
+     * @return value of field converted to Date
+     */
+    protected Date getDateFromField(@IdRes int fieldID) {
+        String text = getTextFromField(fieldID);
+
+        if (text != null) {
+            return new Date(text);
         }
 
         return null;
@@ -294,11 +312,37 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method to set text
      *
-     * @param componentID - Id do campo a ser setado
+     * @param componentID - Id of component that will receive text
      * @param content     - Textual content
      */
     protected void setText(@IdRes int componentID, String content) {
         TextView textView = findViewById(componentID);
+
+        if (textView != null) {
+            textView.setText(content);
+        }
+    }
+
+    /**
+     * Method to set text
+     *
+     * @param componentID - Id of component that will receive text
+     * @param contentID   - Id of textual content
+     * @param view        - View in which component that will receive textual content is present
+     */
+    protected void setText(@IdRes int componentID, @StringRes int contentID, View view) {
+        setText(componentID, getString(contentID), view);
+    }
+
+    /**
+     * Method to set text
+     *
+     * @param componentID - Id of component that will receive text
+     * @param content     - Textual content
+     * @param view        - View in which component that will receive textual content is present
+     */
+    protected void setText(@IdRes int componentID, String content, View view) {
+        TextView textView = view.findViewById(componentID);
 
         if (textView != null) {
             textView.setText(content);

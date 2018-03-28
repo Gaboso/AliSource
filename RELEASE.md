@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2017-03-27
+
+### Changed
+- Updating android dependencies of project, from '27.0.2' to '27.1.0'.
+- Gradle (com.android.tools.build:gradle) version from '3.0.1' to '3.1.0'.
+- Gradle Wrapper version from '4.1' to '4.4'.
+### Added
+- Method to set text in a field that is in a different view.
+- Method to get a date value from field.
+
 ## [1.0.3] - 2017-02-26
 
 ### Added
