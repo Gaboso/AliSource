@@ -3,8 +3,10 @@ package br.com.alisource.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
@@ -537,10 +539,28 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param id - Component id to receive ads
      */
-    protected void loadAd(int id) {
+    protected void loadAd(@IdRes int id) {
         AdView adView = findViewById(id);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+    }
+
+    /**
+     * Method to get an array of IDs
+     *
+     * @param id - Array ID
+     * @return array of IDs
+     */
+    protected int[] getIDArray(@ArrayRes int id) {
+        TypedArray typedArray = getResources().obtainTypedArray(id);
+        int[] ids = new int[typedArray.length()];
+
+        for (int i = 0; i < typedArray.length(); i++) {
+            ids[i] = typedArray.getResourceId(i, 0);
+        }
+
+        typedArray.recycle();
+        return ids;
     }
 
 }

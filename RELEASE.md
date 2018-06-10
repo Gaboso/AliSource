@@ -1,7 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2017-03-27
+## [1.1.1] - 2018-06-09
+
+### Changed
+- Updating 'com.android.support' dependencies of project, from '27.1.0' to '27.1.1'.
+- Updating 'play-services-ads' dependencies, from '12.0.0' to '15.0.1'.
+- Gradle (com.android.tools.build:gradle) version from '3.1.0' to '3.1.2'.
+### Added
+- Method to get an array of IDs.
+
+## [1.1.0] - 2018-03-27
 
 ### Changed
 - Updating android dependencies of project, from '27.0.2' to '27.1.0'.
@@ -11,12 +20,12 @@ All notable changes to this project will be documented in this file.
 - Method to set text in a field that is in a different view.
 - Method to get a date value from field.
 
-## [1.0.3] - 2017-02-26
+## [1.0.3] - 2018-02-26
 
 ### Added
 - Loader for advertisements.
 
-## [1.0.2] - 2017-02-21
+## [1.0.2] - 2018-02-21
 
 ### Added
 - Style for email field.
