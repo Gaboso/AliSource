@@ -25,10 +25,56 @@ An Android library that contains:
 - Mask:
     - Mask helper.
     
-### how to add in your own project
+### How to add in your own project
 
 Add the following dependency in the file 'build.gradle':
 
 ```gradle
 implementation 'com.github.gaboso:alisource:x.x.x'
+```
+
+### How to use
+
+#### BaseActivity
+
+Your activity should extend BaseActivity:
+
+```java
+import br.com.alisource.activity.BaseActivity;
+
+public class MainActivity extends BaseActivity {
+    ...
+}
+```
+
+Get data from field:
+
+```java
+//How to get a String
+String text = getTextFromField(R.id.field_text_id);
+
+//How to get a Long
+Long id = getLongFromField(R.id.field_long_id);
+
+//How to get a Double
+Double bodyMass = getDoubleFromField(R.id.field_double_id);
+
+// How to get an Integer
+Integer age = getIntegerFromField(R.id.field_int_id);
+
+// How to get a Date
+Date date = getDateFromField(R.id.field_date_id);
+
+// How to get a Boolean
+Boolean createBackup = getBooleanFromRadio(R.id.radio_id);
+```
+
+Set mask in field:
+
+```java
+//Using string mask
+setMask(R.id.phone_field, "(###) ###-####");
+// OR
+//Using mask id
+setMask(R.id.phone_field, R.string.phone_mask);
 ```
