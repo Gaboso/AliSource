@@ -78,3 +78,45 @@ setMask(R.id.phone_field, "(###) ###-####");
 //Using mask id
 setMask(R.id.phone_field, R.string.phone_mask);
 ```
+
+Set color in text:
+
+```java
+setTextColor(R.id.component, R.color.yellow_dark);
+```
+
+Remove focus from field:
+
+```java
+clearFocus(R.id.field_1);
+
+//OR
+
+int[] fieldIds = {R.id.field_1, R.id.field_2, R.id.field3};
+clearFocus(fieldIds);
+```
+
+Hide keyboard
+
+```java
+hideKeyboard();
+```
+
+Component visibility control
+
+```java
+// Gone
+setVisibilityGone(R.id.component);
+
+// Visible
+setVisibilityVisible(R.id.component);
+
+//Invisible
+setVisibilityInvisible(R.id.component);
+
+```
+
+Load an advertising
+```java
+loadAd(R.id.ad_view_id);
+```

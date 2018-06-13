@@ -444,7 +444,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * MMethod to hide keyboard
+     * Method to hide keyboard
      */
     protected void hideKeyboard() {
         View view = getCurrentFocus();
