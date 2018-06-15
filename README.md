@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/gaboso/com.github.gaboso/alisource/images/download.svg) ](https://bintray.com/gaboso/com.github.gaboso/alisource/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/gaboso/com.github.gaboso/alisource/images/download.svg) ](https://bintray.com/gaboso/com.github.gaboso/alisource/_latestVersion)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # AliSource
 
@@ -116,7 +116,7 @@ loadAd(R.id.ad_view_id);
 
 Get id of selected RadioButton in a RadioGroup
 ```java
-getCheckedRadioButtonId(R.id.radio_group_id);
+int checkedID = getCheckedRadioButtonId(R.id.radio_group_id);
 ```
 
 Set text formatted with HTML tags
