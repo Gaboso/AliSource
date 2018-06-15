@@ -38,7 +38,6 @@ implementation 'com.github.gaboso:alisource:x.x.x'
 #### BaseActivity
 
 Your activity should extend BaseActivity:
-
 ```java
 import br.com.alisource.activity.BaseActivity;
 
@@ -48,7 +47,6 @@ public class MainActivity extends BaseActivity {
 ```
 
 Get data from field:
-
 ```java
 //How to get a String
 String text = getTextFromField(R.id.field_text_id);
@@ -70,7 +68,6 @@ Boolean createBackup = getBooleanFromRadio(R.id.radio_id);
 ```
 
 Set mask in field:
-
 ```java
 //Using string mask
 setMask(R.id.phone_field, "(###) ###-####");
@@ -80,13 +77,11 @@ setMask(R.id.phone_field, R.string.phone_mask);
 ```
 
 Set color in text:
-
 ```java
 setTextColor(R.id.component, R.color.yellow_dark);
 ```
 
 Remove focus from field:
-
 ```java
 clearFocus(R.id.field_1);
 
@@ -97,13 +92,11 @@ clearFocus(fieldIds);
 ```
 
 Hide keyboard
-
 ```java
 hideKeyboard();
 ```
 
 Component visibility control
-
 ```java
 // Gone
 setVisibilityGone(R.id.component);
@@ -120,3 +113,17 @@ Load an advertising
 ```java
 loadAd(R.id.ad_view_id);
 ```
+
+Get id of selected RadioButton in a RadioGroup
+```java
+getCheckedRadioButtonId(R.id.radio_group_id);
+```
+
+Set text formatted with HTML tags
+```java
+String textHTML = "<p>Lorem Ipsum</p>";
+setHTMLContent(R.id.textview, textHTML);
+//OR
+setHTMLContent(R.id.textview, R.string.text_html);
+```
+
