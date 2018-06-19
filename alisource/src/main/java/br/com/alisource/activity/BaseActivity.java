@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -271,7 +272,7 @@ public class BaseActivity extends AppCompatActivity {
     protected boolean validateFieldNotNullOrNotEmpty(@IdRes int fieldID, @IdRes int layoutID, @StringRes int errorMessageID) {
         String text = getTextFromField(fieldID);
 
-        if (text == null || text.isEmpty()) {
+        if (TextUtils.isEmpty(text)) {
             setErrorMessage(layoutID, errorMessageID);
             return false;
         }
