@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2018-06-22
+
+### Changed
+- Using TextUtils to validate empty or null String.
+- Methods setVisibility suport to View components (not only TextView).
+- Gradle (com.android.tools.build:gradle) version from '3.1.2' to '3.1.3'.
+
 ## [1.1.1] - 2018-06-09
 
 ### Changed

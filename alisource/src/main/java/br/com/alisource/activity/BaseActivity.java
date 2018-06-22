@@ -511,8 +511,8 @@ public class BaseActivity extends AppCompatActivity {
      * @param id - Component Id to have visibility changed
      */
     protected void setVisibilityGone(@IdRes int id) {
-        TextView textView = findViewById(id);
-        textView.setVisibility(View.GONE);
+        View view = findViewById(id);
+        view.setVisibility(View.GONE);
     }
 
     /**
@@ -521,8 +521,8 @@ public class BaseActivity extends AppCompatActivity {
      * @param id - Component Id to have visibility changed
      */
     protected void setVisibilityVisible(@IdRes int id) {
-        TextView textView = findViewById(id);
-        textView.setVisibility(View.VISIBLE);
+        View view = findViewById(id);
+        view.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -531,8 +531,8 @@ public class BaseActivity extends AppCompatActivity {
      * @param id - Component Id to have visibility changed
      */
     protected void setVisibilityInvisible(@IdRes int id) {
-        TextView textView = findViewById(id);
-        textView.setVisibility(View.INVISIBLE);
+        View view = findViewById(id);
+        view.setVisibility(View.INVISIBLE);
     }
 
     /**
