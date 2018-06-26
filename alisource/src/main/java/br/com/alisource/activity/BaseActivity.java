@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
@@ -543,6 +544,39 @@ public class BaseActivity extends AppCompatActivity {
     protected void loadAd(@IdRes int id) {
         AdView adView = findViewById(id);
         AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    /**
+     * Method to load test ad using a device
+     *
+     * @param id       - Component id to receive test ads
+     * @param deviceID - String with ID of the device which will display the test ad
+     */
+    protected void loadTestAdInDevice(@IdRes int id, @NonNull String deviceID) {
+        AdView adView = findViewById(id);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(deviceID).build();
+        adView.loadAd(adRequest);
+    }
+
+    /**
+     * Method to load test ad using a device
+     *
+     * @param id       - Component id to receive test ads
+     * @param deviceID - ID Resource from ID of the device which will display the test ad
+     */
+    protected void loadTestAdInDevice(@IdRes int id, @StringRes int deviceID) {
+        loadTestAdInDevice(id, getString(deviceID));
+    }
+
+    /**
+     * Method to load test ad using an emulator
+     *
+     * @param id - Component id to receive test ads
+     */
+    protected void loadTestAdInEmulator(@IdRes int id) {
+        AdView adView = findViewById(id);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         adView.loadAd(adRequest);
     }
 

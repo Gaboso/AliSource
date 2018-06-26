@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2018-06-25
+
+### Added
+- Method to get load test ads in device or emulator.
+
 ## [1.1.2] - 2018-06-22
 
 ### Changed
