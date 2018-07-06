@@ -102,7 +102,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Long getLongFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
-        if (text != null) {
+        if (!TextUtils.isEmpty(text)) {
             return Long.valueOf(text);
         }
 
@@ -118,7 +118,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Double getDoubleFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
-        if (text != null) {
+        if (!TextUtils.isEmpty(text)) {
             return Double.valueOf(text);
         }
 
@@ -134,7 +134,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Integer getIntegerFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
-        if (text != null) {
+        if (!TextUtils.isEmpty(text)) {
             return Integer.valueOf(text);
         }
 
@@ -150,7 +150,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Date getDateFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
-        if (text != null) {
+        if (!TextUtils.isEmpty(text)) {
             return new Date(text);
         }
 
