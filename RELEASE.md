@@ -1,6 +1,23 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2018-07-14
+
+### Changed
+- Fixed access to getCurrentLocale method;
+
+## [1.2.1] - 2018-07-05
+
+### Changed
+- Gradle (com.android.tools.build:gradle) version from '3.1.3' to '3.2.0-beta02';
+- Updating android dependencies of project, from '27.1.1' to '28.0.0-alpha3'.
+- Gradle Wrapper version from '4.4' to '4.8'.
+- Java version from '1.7' to '1.8'.
+- TextUtils to validate empty text.
+
+### Added
+- LocaleUtils class.
+
 ## [1.1.3] - 2018-06-25
 
 ### Added
