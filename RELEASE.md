@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2019-01-23
+
+### Changed
+- Gradle (com.android.tools.build:gradle) version from '3.2.0-beta02' to '3.3.0';
+- Updating android dependencies of project, from '28.0.0-alpha3' to '28.0.0'.
+- Gradle Wrapper version from '4.8' to '5.1'.
+
 ## [1.2.2] - 2018-07-14
 
 ### Changed

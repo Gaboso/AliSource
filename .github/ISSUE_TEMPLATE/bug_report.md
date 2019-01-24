@@ -20,9 +20,8 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. Linux]
- - App Version [e.g. 1.2.2]
+**please complete the following information:**
+ - Version [e.g. 1.3.1]
 
 **Additional context**
 Add any other context about the problem here.
