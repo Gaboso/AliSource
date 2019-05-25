@@ -68,10 +68,9 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -163,9 +162,14 @@ public class BaseActivity extends AppCompatActivity {
      * @param radioID - RadioButton id
      * @return true if RadioButton is selected and false otherwise
      */
-    protected boolean getBooleanFromRadio(@IdRes int radioID) {
+    protected Boolean getBooleanFromRadio(@IdRes int radioID) {
         RadioButton radioButton = findViewById(radioID);
-        return radioButton != null && radioButton.isChecked();
+
+        if (radioButton == null) {
+            return null;
+        }
+
+        return radioButton.isChecked();
     }
 
     /**
@@ -222,16 +226,8 @@ public class BaseActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                finish();
-            }
-        });
-        builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                dialog.cancel();
-            }
-        });
+        builder.setPositiveButton(positiveText, (dialog, arg1) -> finish());
+        builder.setNegativeButton(negativeText, (dialog, arg1) -> dialog.cancel());
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -383,10 +379,10 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method to remove a RadioGroup selection
      *
-     * @param radioGroupID - id of RadioGroup to have selections removed
+     * @param groupID - id of RadioGroup to have selections removed
      */
-    protected void clearRadioGroup(@IdRes int radioGroupID) {
-        RadioGroup radioGroup = findViewById(radioGroupID);
+    protected void clearRadioGroup(@IdRes int groupID) {
+        RadioGroup radioGroup = findViewById(groupID);
 
         if (radioGroup != null) {
             radioGroup.clearCheck();
@@ -539,10 +535,10 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method to load ad in activity
      *
-     * @param id - Component id to receive ads
+     * @param adViewID - Component id to receive ads
      */
-    protected void loadAd(@IdRes int id) {
-        AdView adView = findViewById(id);
+    protected void loadAd(@IdRes int adViewID) {
+        AdView adView = findViewById(adViewID);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }
@@ -550,11 +546,11 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method to load test ad using a device
      *
-     * @param id       - Component id to receive test ads
-     * @param deviceID - String with ID of the device which will display the test ad
+     * @param adViewID - Component id to receive test ads
+     * @param deviceID - String with id of the device which will display the test ad
      */
-    protected void loadTestAdInDevice(@IdRes int id, @NonNull String deviceID) {
-        AdView adView = findViewById(id);
+    protected void loadTestAdInDevice(@IdRes int adViewID, @NonNull String deviceID) {
+        AdView adView = findViewById(adViewID);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(deviceID).build();
         adView.loadAd(adRequest);
     }
@@ -562,20 +558,20 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method to load test ad using a device
      *
-     * @param id       - Component id to receive test ads
-     * @param deviceID - ID Resource from ID of the device which will display the test ad
+     * @param adViewID - Component id to receive test ads
+     * @param deviceID - Id Resource of the device which will display the test ad
      */
-    protected void loadTestAdInDevice(@IdRes int id, @StringRes int deviceID) {
-        loadTestAdInDevice(id, getString(deviceID));
+    protected void loadTestAdInDevice(@IdRes int adViewID, @StringRes int deviceID) {
+        loadTestAdInDevice(adViewID, getString(deviceID));
     }
 
     /**
      * Method to load test ad using an emulator
      *
-     * @param id - Component id to receive test ads
+     * @param adViewID - Component id to receive test ads
      */
-    protected void loadTestAdInEmulator(@IdRes int id) {
-        AdView adView = findViewById(id);
+    protected void loadTestAdInEmulator(@IdRes int adViewID) {
+        AdView adView = findViewById(adViewID);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         adView.loadAd(adRequest);
     }
@@ -583,11 +579,11 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method to get an array of IDs
      *
-     * @param id - Array ID
+     * @param arrayID - Array ID
      * @return array of IDs
      */
-    protected int[] getIDArray(@ArrayRes int id) {
-        TypedArray typedArray = getResources().obtainTypedArray(id);
+    protected int[] getIDArray(@ArrayRes int arrayID) {
+        TypedArray typedArray = getResources().obtainTypedArray(arrayID);
         int[] ids = new int[typedArray.length()];
 
         for (int i = 0; i < typedArray.length(); i++) {

@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.4.1] - 2019-05-24
+
+### Changed
+- Gradle (com.android.tools.build:gradle) version from '3.3.0' to '3.4.1';
+- Updated 'play-services-ads' dependencies, from '17.1.2' to '17.2.1'.
+- Updated name of some parameters for better understanding of the code.
+
 ## [1.3.1] - 2019-01-23
 
 ### Changed
