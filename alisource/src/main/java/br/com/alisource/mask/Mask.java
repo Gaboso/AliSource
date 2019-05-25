@@ -22,6 +22,7 @@ public class Mask {
     private static final String SLASH = "[/]";
     private static final String WHITE_SPACE = "[ ]";
     private static final char MASK_BASE_CHAR = '#';
+    private static final String EMPTY_STRING = "";
 
     private Mask() {
     }
@@ -36,11 +37,11 @@ public class Mask {
     public static TextWatcher insert(final String maskFormat, final EditText field) {
         return new TextWatcher() {
             boolean update;
-            String oldValue = "";
+            String oldValue = EMPTY_STRING;
 
             public void onTextChanged(CharSequence newValueWithMask, int start, int before, int count) {
                 String valueWithoutMask = Mask.getValueWithoutMask(newValueWithMask.toString());
-                String valueWithMask = "";
+                String valueWithMask = EMPTY_STRING;
 
                 if (update) {
                     oldValue = valueWithoutMask;
@@ -52,9 +53,9 @@ public class Mask {
 
                 if (valueWithoutMask.length() > oldValue.length()) {
                     for (char maskChar : maskFormat.toCharArray()) {
-                        if (maskChar != MASK_BASE_CHAR)
+                        if (maskChar != MASK_BASE_CHAR) {
                             valueWithMask += Character.toString(maskChar);
-                        else {
+                        } else {
                             try {
                                 valueWithMask += Character.toString(valueWithoutMask.charAt(position));
                             } catch (Exception e) {
@@ -93,12 +94,12 @@ public class Mask {
      * @return Text without mask
      */
     private static String getValueWithoutMask(String textWithMask) {
-        return textWithMask.replaceAll(DOT, "")
-                .replaceAll(HYPHEN, "")
-                .replaceAll(SLASH, "")
-                .replaceAll(OPEN_PARENTHESIS, "")
-                .replaceAll(CLOSE_PARENTHESIS, "")
-                .replaceAll(WHITE_SPACE, "");
+        return textWithMask.replaceAll(DOT, EMPTY_STRING)
+                .replaceAll(HYPHEN, EMPTY_STRING)
+                .replaceAll(SLASH, EMPTY_STRING)
+                .replaceAll(OPEN_PARENTHESIS, EMPTY_STRING)
+                .replaceAll(CLOSE_PARENTHESIS, EMPTY_STRING)
+                .replaceAll(WHITE_SPACE, EMPTY_STRING);
     }
 
 }
