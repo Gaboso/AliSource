@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/Gaboso/AliSource'
     gitUrl = 'https://github.com/Gaboso/AliSource.git'
 
-    libraryVersion = '1.4.1'
+    libraryVersion = '2.0.0'
 
     developerId = 'gaboso'
     developerName = 'Gaboso'
@@ -26,14 +26,14 @@ ext {
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 15
-        versionName '1.4.1'
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 29
+        versionCode 16
+        versionName '2.0.0'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -51,15 +51,15 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:support-v4:28.0.0'
-    implementation 'com.android.support:customtabs:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.google.android.gms:play-services-ads:17.2.1'
+    androidTestImplementation 'junit:junit:4.13-beta-3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.gms:play-services-ads:18.1.1'
 }
 
 
