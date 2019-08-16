@@ -1,6 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2019-08-15
+
+### Changed
+- Android API version from 28 to 29.
+- Updated buildToolsVersion from '28.0.3' to '29.0.2' 
+- Gradle (com.android.tools.build:gradle) version from '3.4.1' to '3.4.2';
+- Updated 'play-services-ads' dependencies, from '17.2.1' to '18.1.1'.
+- Changed 'com.android.support:support-v4:28.0.0' to 'androidx.legacy:legacy-support-v4:1.0.0'.
+- Changed 'com.android.support:appcompat-v7:28.0.0' to 'androidx.appcompat:appcompat:1.0.2'.
+- Changed 'com.android.support:design:28.0.0' to 'com.google.android.material:material:1.0.0'.
+- Changed 'com.android.support:customtabs:28.0.0' to 'androidx.browser:browser:1.0.0'.
+### Added
+- Add AndroidX support.
+- Enabled Jetfier.
+
 ## [1.4.1] - 2019-05-24
 
 ### Changed
