@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ali_field" parent="android:Widget.EditText">
+    <style name="ali_field" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:minHeight">@dimen/ali_size_48</item>
@@ -9,8 +9,8 @@
         <item name="android:paddingTop">@dimen/ali_size_8</item>
         <item name="android:paddingBottom">@dimen/ali_size_8</item>
 
-        <item name="android:paddingRight">@dimen/ali_size_4</item>
-        <item name="android:paddingLeft">@dimen/ali_size_4</item>
+        <item name="android:paddingStart">@dimen/ali_size_4</item>
+        <item name="android:paddingEnd">@dimen/ali_size_4</item>
 
         <item name="android:textSize">@dimen/ali_text_16</item>
     </style>

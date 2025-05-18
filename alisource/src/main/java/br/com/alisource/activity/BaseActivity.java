@@ -4,18 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import androidx.annotation.ArrayRes;
-import androidx.annotation.ColorRes;
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.Build;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,10 +19,21 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import br.com.alisource.R;
 import br.com.alisource.mask.Mask;
@@ -44,8 +50,13 @@ public class BaseActivity extends AppCompatActivity {
      * @param view        - Current View
      * @param targetClass - Target class
      */
-    protected void openActivity(View view, Class targetClass) {
-        Intent intent = new Intent(view.getContext(), targetClass);
+    protected void openActivity(@NonNull View view, @NonNull Class<?> targetClass) {
+        Context context = view.getContext();
+        if (context == null) {
+            return;
+        }
+
+        Intent intent = new Intent(context, targetClass);
         openActivity(intent);
     }
 
@@ -60,15 +71,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        exitActivityTransition();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         }
 
@@ -85,10 +90,11 @@ public class BaseActivity extends AppCompatActivity {
         EditText editText = findViewById(fieldID);
 
         if (editText == null) {
-            return null;
+            return "";
         }
 
-        return editText.getText().toString().trim();
+        CharSequence text = editText.getText();
+        return text != null ? text.toString().trim() : "";
     }
 
     /**
@@ -100,11 +106,11 @@ public class BaseActivity extends AppCompatActivity {
     protected Long getLongFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
-        if (!TextUtils.isEmpty(text)) {
-            return Long.valueOf(text);
+        if (TextUtils.isEmpty(text)) {
+            return null;
         }
+        return Long.valueOf(text);
 
-        return null;
     }
 
     /**
@@ -116,11 +122,11 @@ public class BaseActivity extends AppCompatActivity {
     protected Double getDoubleFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
-        if (!TextUtils.isEmpty(text)) {
-            return Double.valueOf(text);
+        if (TextUtils.isEmpty(text)) {
+            return null;
         }
+        return Double.valueOf(text);
 
-        return null;
     }
 
     /**
@@ -132,24 +138,40 @@ public class BaseActivity extends AppCompatActivity {
     protected Integer getIntegerFromField(@IdRes int fieldID) {
         String text = getTextFromField(fieldID);
 
-        if (!TextUtils.isEmpty(text)) {
-            return Integer.valueOf(text);
+        if (TextUtils.isEmpty(text)) {
+            return null;
         }
+        return Integer.valueOf(text);
 
-        return null;
     }
 
     /**
-     * Method to get a Date value
+     * Method to get a Date value using a default SimpleDateFormat: dd/MM/yyyy
      *
      * @param fieldID - Field id
      * @return value of field converted to Date
      */
     protected Date getDateFromField(@IdRes int fieldID) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return getDateFromField(fieldID, formatter);
+    }
+
+    /**
+     * Method to get a Date value
+     *
+     * @param fieldID   - Field id
+     * @param formatter - formatter for the field date
+     * @return value of field converted to Date
+     */
+    protected Date getDateFromField(@IdRes int fieldID, SimpleDateFormat formatter) {
         String text = getTextFromField(fieldID);
 
         if (!TextUtils.isEmpty(text)) {
-            return new Date(text);
+            try {
+                return formatter.parse(text);
+            } catch (ParseException e) {
+                Log.e(BaseActivity.class.getSimpleName(), "Error while parsing content from field: " + fieldID + " to date", e);
+            }
         }
 
         return null;
@@ -370,9 +392,10 @@ public class BaseActivity extends AppCompatActivity {
     protected void checkRadio(@IdRes int radioID) {
         RadioButton radioButton = findViewById(radioID);
 
-        if (radioButton != null) {
-            radioButton.setChecked(true);
+        if (radioButton == null) {
+            return;
         }
+        radioButton.setChecked(true);
     }
 
     /**
@@ -383,9 +406,10 @@ public class BaseActivity extends AppCompatActivity {
     protected void clearRadioGroup(@IdRes int groupID) {
         RadioGroup radioGroup = findViewById(groupID);
 
-        if (radioGroup != null) {
-            radioGroup.clearCheck();
+        if (radioGroup == null) {
+            return;
         }
+        radioGroup.clearCheck();
     }
 
     /**
@@ -400,20 +424,29 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to check the network connectivity
+     * Checks if the device currently has an active network connection.
      *
-     * @return true for connectivity and false for lack of it
+     * @return true if connected to a network and has internet access, false otherwise.
      */
     protected boolean networkConnectivity() {
         ConnectivityManager manager = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
 
-        if (manager != null) {
-            networkInfo = manager.getActiveNetworkInfo();
+        if (manager == null) {
+            return false;
+        }
+        Network network = manager.getActiveNetwork();
+        if (network == null) {
+            return false;
         }
 
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        NetworkCapabilities capabilities = manager.getNetworkCapabilities(network);
+        return capabilities != null &&
+                (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                        || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                        || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                        || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN));
+
     }
 
     /**
@@ -435,9 +468,10 @@ public class BaseActivity extends AppCompatActivity {
     protected void clearFocus(@IdRes int fieldID) {
         EditText editText = findViewById(fieldID);
 
-        if (editText != null) {
-            editText.clearFocus();
+        if (editText == null) {
+            return;
         }
+        editText.clearFocus();
     }
 
     /**
@@ -445,18 +479,25 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected void hideKeyboard() {
         View view = getCurrentFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager == null) {
+            return;
+        }
 
         if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            if (inputMethodManager != null) {
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        } else {
+            View rootView = findViewById(android.R.id.content);
+            if (rootView == null) {
+                return;
             }
+            inputMethodManager.hideSoftInputFromWindow(rootView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+
     }
 
     /**
-     * Method for seting textual content formatted with HTML tags
+     * Method for setting textual content formatted with HTML tags
      *
      * @param fieldID     - Id of component to receive formatted text
      * @param bodyContent - HTML body with formatting
@@ -467,18 +508,18 @@ public class BaseActivity extends AppCompatActivity {
                 "<body>" + bodyContent + "</body></html>";
 
         TextView textView = findViewById(fieldID);
-
-        if (textView != null) {
-            textView.setText(
-                    android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N ?
-                            Html.fromHtml(htmlFormatted, Html.FROM_HTML_MODE_LEGACY) :
-                            Html.fromHtml(htmlFormatted)
-            );
+        if (textView == null) {
+            return;
         }
+
+        Spanned text = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
+                Html.fromHtml(htmlFormatted, Html.FROM_HTML_MODE_LEGACY) :
+                Html.fromHtml(htmlFormatted);
+        textView.setText(text);
     }
 
     /**
-     * Method for seting textual content formatted with HTML tags
+     * Method for setting textual content formatted with HTML tags
      *
      * @param fieldID       - Id of component to receive formatted text
      * @param bodyContentID - HTML body id with formatting
@@ -518,6 +559,9 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected void setVisibilityVisible(@IdRes int id) {
         View view = findViewById(id);
+        if (view == null) {
+            return;
+        }
         view.setVisibility(View.VISIBLE);
     }
 
@@ -528,51 +572,10 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected void setVisibilityInvisible(@IdRes int id) {
         View view = findViewById(id);
+        if (view == null) {
+            return;
+        }
         view.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Method to load ad in activity
-     *
-     * @param adViewID - Component id to receive ads
-     */
-    protected void loadAd(@IdRes int adViewID) {
-        AdView adView = findViewById(adViewID);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-    }
-
-    /**
-     * Method to load test ad using a device
-     *
-     * @param adViewID - Component id to receive test ads
-     * @param deviceID - String with id of the device which will display the test ad
-     */
-    protected void loadTestAdInDevice(@IdRes int adViewID, @NonNull String deviceID) {
-        AdView adView = findViewById(adViewID);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(deviceID).build();
-        adView.loadAd(adRequest);
-    }
-
-    /**
-     * Method to load test ad using a device
-     *
-     * @param adViewID - Component id to receive test ads
-     * @param deviceID - Id Resource of the device which will display the test ad
-     */
-    protected void loadTestAdInDevice(@IdRes int adViewID, @StringRes int deviceID) {
-        loadTestAdInDevice(adViewID, getString(deviceID));
-    }
-
-    /**
-     * Method to load test ad using an emulator
-     *
-     * @param adViewID - Component id to receive test ads
-     */
-    protected void loadTestAdInEmulator(@IdRes int adViewID) {
-        AdView adView = findViewById(adViewID);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-        adView.loadAd(adRequest);
     }
 
     /**
@@ -582,15 +585,21 @@ public class BaseActivity extends AppCompatActivity {
      * @return array of IDs
      */
     protected int[] getIDArray(@ArrayRes int arrayID) {
-        TypedArray typedArray = getResources().obtainTypedArray(arrayID);
-        int[] ids = new int[typedArray.length()];
+        TypedArray typedArray = null;
+        try {
+            typedArray = getResources().obtainTypedArray(arrayID);
+            int[] ids = new int[typedArray.length()];
 
-        for (int i = 0; i < typedArray.length(); i++) {
-            ids[i] = typedArray.getResourceId(i, 0);
+            for (int i = 0; i < typedArray.length(); i++) {
+                ids[i] = typedArray.getResourceId(i, 0);
+            }
+
+            return ids;
+        } finally {
+            if (typedArray != null) {
+                typedArray.recycle();
+            }
         }
-
-        typedArray.recycle();
-        return ids;
     }
 
 }

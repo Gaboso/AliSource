@@ -1,6 +1,26 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2025-05-18
+
+### Changed
+- Android API version from 29 to 35.
+- Updated buildToolsVersion from '29.0.2' to '35.0.1'
+- Gradle (com.android.tools.build:gradle) version from '3.4.2' to '8.10.0';
+- Compile options from Java '1.8' to '17'
+- Changed repositories from 'jcenter' and 'maven' to 'google' and 'mavenCentral'
+- Changed 'junit:junit:4.13-beta-3' to 'junit:junit:4.13.2'.
+- Changed 'androidx.appcompat:appcompat:1.0.2' to 'androidx.appcompat:appcompat:1.7.0'.
+- Changed 'com.google.android.material:material:1.0.0' to 'com.google.android.material:material:1.12.0'.
+- Changed 'androidx.browser:browser:1.0.0' to 'androidx.browser:browser:1.8.0'.
+- Prevent NPE on BaseActivity class
+- Prevent IndexOutOfBound exception on Mask class
+### Added
+- Add support to 'maven-publish' plugin
+### Removed
+- Bintray configs and dependencies
+- Removed dependency 'play-services-ads'
+
 ## [2.0.0] - 2019-08-15
 
 ### Changed

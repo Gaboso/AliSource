@@ -1,7 +1,10 @@
 package br.com.alisource.utils;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
+
+import androidx.annotation.NonNull;
 
 import java.util.Locale;
 
@@ -11,17 +14,19 @@ public class LocaleUtils {
     }
 
     /**
-     * Method to get current locale from device
+     * Returns the current device Locale.
      *
-     * @param context - Context
-     * @return Device current locale
+     * @param context - The context used to access resources.
+     * @return The primary Locale of the device
      */
-    public static Locale getCurrentLocale(Context context) {
+    public static Locale getCurrentLocale(@NonNull Context context) {
+        Configuration configuration = context.getResources().getConfiguration();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return context.getResources().getConfiguration().getLocales().get(0);
+            return configuration.getLocales().get(0);
         } else {
             //noinspection deprecation
-            return context.getResources().getConfiguration().locale;
+            return configuration.locale;
         }
     }
 
