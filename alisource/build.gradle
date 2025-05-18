@@ -1,10 +1,7 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'maven-publish'
 
 ext {
-    bintrayRepo = 'com.github.gaboso'
-    bintrayName = 'alisource'
-
     publishedGroupId = 'com.github.gaboso'
     libraryName = 'AliSource'
     artifactIdExt = 'alisource'
@@ -14,7 +11,7 @@ ext {
     siteUrl = 'https://github.com/Gaboso/AliSource'
     gitUrl = 'https://github.com/Gaboso/AliSource.git'
 
-    libraryVersion = '2.0.0'
+    libraryVersion = '3.0.0'
 
     developerId = 'gaboso'
     developerName = 'Gaboso'
@@ -22,155 +19,100 @@ ext {
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    namespace = 'br.com.alisource'
+    compileSdkVersion = 35
+    buildToolsVersion = '35.0.1'
+
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 29
-        versionCode 16
-        versionName '2.0.0'
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdkVersion 23
+        targetSdkVersion  35
+        versionCode 17
+        versionName = libraryVersion
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    productFlavors {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation 'junit:junit:4.13-beta-3'
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.gms:play-services-ads:18.1.1'
+    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.6.1') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    androidTestImplementation 'junit:junit:4.13.2'
 }
 
+// Generate sourcesJar
+tasks.register('sourcesJar', Jar) {
+    archiveClassifier.set("sources")
+    from android.sourceSets.main.java.srcDirs
+}
 
-// Maven section
-// You shouldn't need to change anything. It just uses the
-// values you set above.
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = publishedGroupId
+                artifactId = artifactIdExt
+                version = libraryVersion
 
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = publishedGroupId // Maven Group ID for the artifact
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                groupId publishedGroupId
-                artifactId artifactIdExt
-
-                // Add your description here
-                name libraryName
-                description libraryDescription
-                url siteUrl
-
-                // Set your license
-                licenses {
-                    license {
-                        name licenseName
-                        url licenseUrl
-                    }
+                // Main artifact AAR
+                def aarOutput = file("$buildDir/outputs/aar/${project.name}-release.aar")
+                artifact(aarOutput) {
+                    builtBy tasks.named("assembleRelease")
                 }
-                developers {
-                    developer {
-                        id developerId
-                        name developerName
-                        email developerEmail
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
 
+                artifact sourcesJar
+
+                pom {
+                    name.set(libraryName)
+                    description.set(libraryDescription)
+                    url.set(siteUrl)
+
+                    licenses {
+                        license {
+                            name.set(licenseName)
+                            url.set(licenseUrl)
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set(developerId)
+                            name.set(developerName)
+                            email.set(developerEmail)
+                        }
+                    }
+
+                    scm {
+                        connection.set(gitUrl)
+                        developerConnection.set(gitUrl)
+                        url.set(siteUrl)
+                    }
                 }
             }
         }
-    }
-}
 
-// Bintray section
-// As long as you add bintray.user and bintray.apikey to the local.properties
-// file, you shouldn't have to change anything here. The reason you
-// don't just write them here is so that they won't be publicly visible
-// in GitHub or wherever your source control is.
-
-apply plugin: 'com.jfrog.bintray'
-
-version = libraryVersion
-
-if (project.hasProperty("android")) { // Android libraries
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from android.sourceSets.main.java.srcDirs
-    }
-
-    task javadoc(type: Javadoc) {
-        source = android.sourceSets.main.java.srcDirs
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    }
-} else { // Java libraries
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        publish = true
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-            gpg {
-                // optional GPG encryption. Default is false.
-                sign = true
-                passphrase = properties.getProperty("bintray.gpg.password")
-            }
+        repositories {
+            mavenLocal()
         }
     }
 }

@@ -2,25 +2,18 @@ package br.com.alisource.mask;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 
 /**
- * Helper class to use field masks.
+ * Helper class to apply masks to EditText fields.
  * <p>
  * Example mask patterns:
- * Phone number US: (###) ###-####
- * Mobiles in UK: 07### ######
- * Mobiles in BR: (##) 9####-####
+ * - US phone: (###) ###-####
+ * - UK mobile: 07### ######
+ * - BR mobile: (##) 9####-####
  */
 public class Mask {
 
-    private static final String CLOSE_PARENTHESIS = "[)]";
-    private static final String DOT = "[.]";
-    private static final String HYPHEN = "[-]";
-    private static final String OPEN_PARENTHESIS = "[(]";
-    private static final String SLASH = "[/]";
-    private static final String WHITE_SPACE = "[ ]";
     private static final char MASK_BASE_CHAR = '#';
     private static final String EMPTY_STRING = "";
 
@@ -28,20 +21,20 @@ public class Mask {
     }
 
     /**
-     * Method to insert a mask in a field
+     * Applies a given mask to an EditText field.
      *
-     * @param maskFormat - Mask format
-     * @param field      - Field that will receive mask
-     * @return listener that was added in field to control mask
+     * @param maskFormat The format of the mask (e.g., (###) ###-####)
+     * @param field      The EditText field to apply the mask to
+     * @return The TextWatcher used to apply the mask (can be removed later if needed)
      */
     public static TextWatcher insert(final String maskFormat, final EditText field) {
         return new TextWatcher() {
             boolean update;
             String oldValue = EMPTY_STRING;
 
+            @Override
             public void onTextChanged(CharSequence newValueWithMask, int start, int before, int count) {
-                String valueWithoutMask = Mask.getValueWithoutMask(newValueWithMask.toString());
-                String valueWithMask = EMPTY_STRING;
+                String valueWithoutMask = getValueWithoutMask(newValueWithMask.toString());
 
                 if (update) {
                     oldValue = valueWithoutMask;
@@ -49,34 +42,36 @@ public class Mask {
                     return;
                 }
 
-                int position = 0;
+                StringBuilder valueWithMask = new StringBuilder();
+                int inputIndex = 0;
+                int inputLength = valueWithoutMask.length();
 
-                if (valueWithoutMask.length() > oldValue.length()) {
-                    for (char maskChar : maskFormat.toCharArray()) {
-                        if (maskChar != MASK_BASE_CHAR) {
-                            valueWithMask += Character.toString(maskChar);
+                for (int i = 0; i < maskFormat.length(); i++) {
+                    char maskChar = maskFormat.charAt(i);
+
+                    if (maskChar != MASK_BASE_CHAR) {
+                        valueWithMask.append(maskChar);
+                    } else {
+                        if (inputIndex < inputLength) {
+                            valueWithMask.append(valueWithoutMask.charAt(inputIndex));
+                            inputIndex++;
                         } else {
-                            try {
-                                valueWithMask += Character.toString(valueWithoutMask.charAt(position));
-                            } catch (Exception e) {
-                                Log.d("Mask", e.getMessage(), e);
-                                break;
-                            }
-                            position++;
+                            break; // Avoid IndexOutOfBounds
                         }
                     }
-                } else {
-                    valueWithMask = newValueWithMask.toString();
                 }
 
-                setMaskInField(valueWithMask);
+                setMaskInField(valueWithMask.toString());
             }
 
-
+            @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No-op
             }
 
+            @Override
             public void afterTextChanged(Editable s) {
+                // No-op
             }
 
             private void setMaskInField(String valueWithMask) {
@@ -88,18 +83,13 @@ public class Mask {
     }
 
     /**
-     * Method to remove special characters from mask
+     * Removes special characters from a masked string.
      *
-     * @param textWithMask - Text with mask
-     * @return Text without mask
+     * @param textWithMask The masked text
+     * @return The raw string without mask characters
      */
     private static String getValueWithoutMask(String textWithMask) {
-        return textWithMask.replaceAll(DOT, EMPTY_STRING)
-                .replaceAll(HYPHEN, EMPTY_STRING)
-                .replaceAll(SLASH, EMPTY_STRING)
-                .replaceAll(OPEN_PARENTHESIS, EMPTY_STRING)
-                .replaceAll(CLOSE_PARENTHESIS, EMPTY_STRING)
-                .replaceAll(WHITE_SPACE, EMPTY_STRING);
+        return textWithMask.replaceAll("[()\\-./\\s]", EMPTY_STRING);
     }
 
 }

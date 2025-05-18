@@ -3,125 +3,176 @@
 
 ### About
 
-An Android library that contains:
+AliSource is an Android utility library that provides:
 
-- BaseActivity:
-    - Component visibility control.
-    - Transition visual effects.
-    - Clear field focus.
-    - Check network connectivity.
-    - Dialog to confirm application exit.
-    - Get data from fields (Integer, Double, Date, Long, String and boolean).
-    - Basic field validation.
+- **BaseActivity**:
+  - Simplified component visibility control.
+  - Built-in transition animations.
+  - Field focus management.
+  - Network connectivity checks.
+  - Exit confirmation dialogs.
+  - Convenient methods to extract values from fields (`Integer`, `Double`, `Date`, `Long`, `String`, `Boolean`).
+  - Basic field validations.
 
-- SnackBarActions:
-    - Basic Success Snackbar.
-    - Basic Warning Snackbar.
-    - Basic Error Snackbar.
-    - Basic Snackbar.
-    
-- Mask:
-    - Mask helper.
-    
-### How to add in your own project
+- **SnackBarActions**:
+  - Predefined `Snackbar` styles for Success, Warning, Error, and Neutral messages.
 
-Add the following dependency in the file 'build.gradle':
+- **Mask**:
+  - Easy-to-apply input masks for fields.
 
-```gradle
-implementation 'com.github.gaboso:alisource:x.x.x'
+---
+
+### ⚠️ Bintray Deprecation Notice
+
+This library was originally published via Bintray, which is no longer available. While we migrate to a new public repository, you can use the library locally through one of the following approaches:
+
+---
+
+### 🛠 Option 1 – Build and use via **Maven Local**
+
+#### Step 1: Generate the release
+```bash
+./gradlew clean assembleRelease publishReleasePublicationToMavenLocal
+````
+
+#### Step 2: Locate the artifact
+
+After publishing, the `.aar` will be available in your local Maven repository:
+
+```
+~/.m2/repository/com/github/gaboso/alisource/3.0.0/
 ```
 
-### How to use
+#### Step 3: Configure your app to use `mavenLocal()`
 
-#### BaseActivity
+Add this in your project's `build.gradle`:
 
-Your activity should extend BaseActivity:
+```gradle
+repositories {
+    mavenLocal()
+    google()
+    mavenCentral()
+}
+```
+
+Then, add the dependency:
+
+```gradle
+implementation 'com.github.gaboso:alisource:3.0.0'
+```
+
+---
+
+### 📦 Option 2 – Use `.aar` directly via `libs/`
+
+#### Step 1: Copy the `.aar` file
+
+Navigate to:
+
+```
+~/.m2/repository/com/github/gaboso/alisource/3.0.0/
+```
+
+Copy the file `alisource-3.0.0.aar` to your app's `libs/` folder:
+
+```
+your-app-module/libs/alisource-3.0.0.aar
+```
+
+#### Step 2: Configure `build.gradle`
+
+```gradle
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation(name: 'alisource-3.0.0', ext: 'aar')
+}
+```
+
+---
+
+### 🧩 How to Use
+
+#### `BaseActivity`
+
+Extend `BaseActivity` in your Activity:
+
 ```java
 import br.com.alisource.activity.BaseActivity;
 
 public class MainActivity extends BaseActivity {
-    ...
+    // ...
 }
 ```
 
-Get data from field:
+##### Get values from fields:
+
 ```java
-//How to get a String
-String text = getTextFromField(R.id.field_text_id);
-
-//How to get a Long
-Long id = getLongFromField(R.id.field_long_id);
-
-//How to get a Double
-Double bodyMass = getDoubleFromField(R.id.field_double_id);
-
-// How to get an Integer
-Integer age = getIntegerFromField(R.id.field_int_id);
-
-// How to get a Date
-Date date = getDateFromField(R.id.field_date_id);
-
-// How to get a Boolean
-Boolean createBackup = getBooleanFromRadio(R.id.radio_id);
+String name = getTextFromField(R.id.name_field);
+Long id = getLongFromField(R.id.id_field);
+Double weight = getDoubleFromField(R.id.weight_field);
+Integer age = getIntegerFromField(R.id.age_field);
+Date birthDate = getDateFromField(R.id.date_field);
+Boolean isActive = getBooleanFromRadio(R.id.active_radio);
 ```
 
-Set mask in field:
+##### Set input mask:
+
 ```java
-//Using string mask
 setMask(R.id.phone_field, "(###) ###-####");
-// OR
-//Using mask id
+// or using a string resource
 setMask(R.id.phone_field, R.string.phone_mask);
 ```
 
-Set color in text:
+##### Change text color:
+
 ```java
-setTextColor(R.id.component, R.color.yellow_dark);
+setTextColor(R.id.label, R.color.yellow_dark);
 ```
 
-Remove focus from field:
+##### Clear focus from fields:
+
 ```java
-clearFocus(R.id.field_1);
+clearFocus(R.id.field_one);
 
-//OR
-
-int[] fieldIds = {R.id.field_1, R.id.field_2, R.id.field3};
-clearFocus(fieldIds);
+// or multiple fields
+clearFocus(new int[]{R.id.field_one, R.id.field_two});
 ```
 
-Hide keyboard
+##### Hide keyboard:
+
 ```java
 hideKeyboard();
 ```
 
-Component visibility control
+##### Control visibility:
+
 ```java
-// Gone
-setVisibilityGone(R.id.component);
-
-// Visible
-setVisibilityVisible(R.id.component);
-
-//Invisible
-setVisibilityInvisible(R.id.component);
-
+setVisibilityGone(R.id.view);
+setVisibilityVisible(R.id.view);
+setVisibilityInvisible(R.id.view);
 ```
 
-Load an advertising
+##### Get selected `RadioButton` ID:
+
 ```java
-loadAd(R.id.ad_view_id);
+int checkedId = getCheckedRadioButtonId(R.id.radio_group);
 ```
 
-Get id of selected RadioButton in a RadioGroup
+##### Set HTML-formatted text:
+
 ```java
-int checkedID = getCheckedRadioButtonId(R.id.radio_group_id);
+setHTMLContent(R.id.text_view, "<p>Hello <b>World</b></p>");
+// or using a string resource
+setHTMLContent(R.id.text_view, R.string.html_content);
 ```
 
-Set text formatted with HTML tags
-```java
-String textHTML = "<p>Lorem Ipsum</p>";
-setHTMLContent(R.id.textview, textHTML);
-//OR
-setHTMLContent(R.id.textview, R.string.text_html);
-```
+---
 
+### 📋 License
+
+This project is licensed under the [Apache License 2.0](https://opensource.org/licenses/Apache-2.0).
